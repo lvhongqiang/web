@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<!--
+
+    Configuration file for UrlRewriteFilter
+    http://www.tuckey.org/urlrewrite/
+
+-->
+<urlrewrite>
+
+		<rule>
+            <from>/art([0-9]+).html</from>
+            <to>/articles.action?aid=$1</to> 
+        </rule>
+		<rule>
+            <from>/artsc([0-9]+).html</from>
+            <to>/articles.action?aid=$1&amp;source=1</to>
+        </rule>
+<!-- 
+		<rule> 
+		    <name>Blocked Inline-Images</name> 
+		    <note> 
+		        Assume we have under http://www.quux-corp.de/~quux/ some pages with inlined GIF graphics. These graphics are 
+		        nice, so others directly incorporate them via hyperlinks to their pages. We don't like this practice because 
+		        it adds useless traffic to our server. 
+		
+		        While we cannot 100% protect the images from inclusion, we can at least restrict the cases where the browser 
+		        sends a HTTP Referer header. 
+		
+		        RewriteCond %{HTTP_REFERER} !^$ 
+		        RewriteCond %{HTTP_REFERER} !^http://www.quux-corp.de/~quux/.*$ [NC] 
+		        RewriteRule .*\.gif$ - [F] 
+		    </note> 
+		    <condition name="referer" operator="notequal">^http://www.xixifree.cn/.*$</condition> 
+		    <from>.*\.(jpg|png|gif|bmp)$</from> 
+		    <set type="status">403</set> 
+		    <to>null</to> 
+		</rule> 
+
+		<rule>
+            <from>/index.html</from>
+            <to>/in.action</to>
+        </rule>
+		<rule>
+            <from>/li([0-9]+)_([0-9]+).html</from>
+            <to>/li.action?menu_id=$1&amp;pageNo=$2</to> 
+        </rule>
+		<rule>
+            <from>/li_([0-9]+).html</from>
+            <to>/li.action?menu2_id=$1</to>
+        </rule>
+		<rule>
+            <from>/li_([0-9]+)_([0-9]+).html</from>
+            <to>/li.action?menu2_id=$1&amp;pageNo=$2</to>
+        </rule>
+
+
+    <rule>
+        <note>
+            The rule means that requests to /test/status/ will be redirected to /rewrite-status
+            the url will be rewritten.
+        </note>
+        <from>/test/status/</from>
+        <to type="redirect">%{context-path}/rewrite-status</to>
+    </rule>
+
+
+    <outbound-rule>
+        <note>
+            The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)
+            the url /rewrite-status will be rewritten to /test/status/.
+
+            The above rule and this outbound-rule means that end users should never see the
+            url /rewrite-status only /test/status/ both in thier location bar and in hyperlinks
+            in your pages.
+        </note>
+        <from>/rewrite-status</from>
+        <to>/test/status/</to>
+    </outbound-rule>
+ -->
+
+    <!--
+
+    INSTALLATION
+
+        in your web.xml add...
+
+        <filter>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+            <init-param>
+                <param-name>logLevel</param-name>
+                <param-value>WARN</param-value>
+            </init-param>
+        </filter>
+        <filter-mapping>
+            <filter-name>UrlRewriteFilter</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
+
+     EXAMPLES
+
+     Redirect one url
+        <rule>
+            <from>/some/old/page.html</from>
+            <to type="redirect">/very/new/page.html</to>
+        </rule>
+
+    Redirect a directory
+        <rule>
+            <from>/some/olddir/(.*)</from>
+            <to type="redirect">/very/newdir/$1</to>
+        </rule>
+
+    Clean a url
+        <rule>
+            <from>/products/([0-9]+)</from>
+            <to>/products/index.jsp?product_id=$1</to>
+        </rule>
+    eg, /products/1234 will be passed on to /products/index.jsp?product_id=1234 without the user noticing.
+
+    Browser detection
+        <rule>
+            <condition name="user-agent">Mozilla/[1-4]</condition>
+            <from>/some/page.html</from>
+            <to>/some/page-for-old-browsers.html</to>
+        </rule>
+    eg, will pass the request for /some/page.html on to /some/page-for-old-browsers.html only for older
+    browsers whose user agent srtings match Mozilla/1, Mozilla/2, Mozilla/3 or Mozilla/4.
+
+    Centralised browser detection
+        <rule>
+            <condition name="user-agent">Mozilla/[1-4]</condition>
+            <set type="request" name="browser">moz</set>
+        </rule>
+    eg, all requests will be checked against the condition and if matched
+    request.setAttribute("browser", "moz") will be called.
+
+    -->
+
+</urlrewrite>
+
