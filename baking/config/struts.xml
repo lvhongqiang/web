@@ -4,8 +4,6 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 
-	<include file="blog/struts.xml"></include>  
-
 	<constant name="struts.action.extension" value="do,action,htc" />
 	<!-- 设置文件上传大小限制为100m -->
 	<constant name="struts.multipart.maxSize" value="104857600" />

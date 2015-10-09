@@ -3,6 +3,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String orderId=request.getParameter("orderId");
+
+
 %>
 
 <!doctype html>
@@ -18,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta charset="UTF-8">
 <%@ include file="/inc/src.jsp"%>
 <script type="text/javascript" src="ionic-v1.1.0/js/ionic.bundle.js"></script>
-<script type="text/javascript" src="js/module/inventory.js"></script>
+<script type="text/javascript" src="js/module/order_detail.js"></script>
 <link href="ionic-v1.1.0/css/ionic.css" rel="stylesheet">
 
 <style>
@@ -35,32 +38,19 @@ body{
 	overflow:auto;
 	-webkit-overflow-scrolling: touch;
 }
-.button.button-block{
-	margin:0px;
-}
 </style>
   </head>
   
   <body>
-<div ng-controller="Inventory">
-		<ul class="ui-list ui-list-text" style="margin-bottom:40px;">
+<div ng-controller="orderDetail" > 
+		<ul class="ui-list ui-list-text" ng-init="orderId=<%=orderId %>;getlist();">
 			<li class="ui-border-t" ng-repeat="g in list">
 				<div class="ui-list-info">
-					<h5>{{g.name}}({{g.unit}})</h5>
+					<h5>{{g[0].name}}</h5>
 				</div>
-				<button class="ui-btn-s ui-btn-danger" ng-click="subtract(g)">-</button>
-				<div class="ui-input ui-border-radius" style="width:25px;">
-					<input type="number" name="" ng-model="g.num" size="2" placeholder="0">
-				</div>
-				<button class="ui-btn-s ui-btn-danger" ng-click="add(g)">+</button>
+				<div>{{g[1]}}{{g[0].unit}}</div>
 			</li>
 		</ul>
-		<div class="bar bar-footer">
-<button class="button button-block button-positive" ng-click="save()">
-  Save the change
-</button>
-</div>
-		
-</div>
+</div>	
 </body>
 </html>

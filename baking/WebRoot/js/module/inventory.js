@@ -16,24 +16,25 @@ baking.controller('Inventory', [ '$scope', '$http','$ionicPopup', function($scop
 	}
 	
 	$scope.subtract=function(i){
-		$scope.list[i].num-=perstep($scope.list[i].unit);
+		i.num-=perstep(i.unit);
 	}
 
 	$scope.add=function(i){
-		$scope.list[i].num+=perstep($scope.list[i].unit);
+		i.num+=perstep(i.unit);
 	}
 	
 	$scope.save=function(){
 		$http.post("json_inventory_save.action",{list : $scope.list})
 		.then(function(value) {
-			$scope.list = value.data.list;
-			if($scope.order !=null){
+			if(value.data.ok==true){
 				$ionicPopup.alert({
 					title: 'Congratulations！',
-				       template: 'Honey, you have just saved one order. (●\'◡\'●) '
-				     })
-				     .then(function(res) {
-				    	 window.location.href='index.jsp';
+				       template: 'Honey, you have just saved the change. (●\'◡\'●) '
+				     });
+			}else{
+				$ionicPopup.alert({
+					title: 'OH！ NO！！',
+				       template: 'Honey I\'m so sorry, there is an error when saving. (●\'◡\'●) '
 				     });
 			}
 		});

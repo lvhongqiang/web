@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<button class="ui-btn-s ui-btn-danger" ng-click="subtract(g.id)">-</button>
 				<div class="ui-input ui-border-radius" style="width:25px;">
-					<input type="number" name="" value="{{orders[g.id]}}" size="2" placeholder="0">
+					<input type="number" name="" ng-model="orders[g.id]" size="2" placeholder="0">
 				</div>
 				<button class="ui-btn-s ui-btn-danger" ng-click="add(g.id)">+</button>
 			</li>

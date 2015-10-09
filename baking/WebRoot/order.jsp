@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta charset="UTF-8">
 <%@ include file="/inc/src.jsp"%>
 <script type="text/javascript" src="ionic-v1.1.0/js/ionic.bundle.js"></script>
-<script type="text/javascript" src="js/module/inventory.js"></script>
+<script type="text/javascript" src="js/module/order.js"></script>
 <link href="ionic-v1.1.0/css/ionic.css" rel="stylesheet">
 
 <style>
@@ -35,32 +35,21 @@ body{
 	overflow:auto;
 	-webkit-overflow-scrolling: touch;
 }
-.button.button-block{
-	margin:0px;
-}
 </style>
   </head>
   
   <body>
-<div ng-controller="Inventory">
-		<ul class="ui-list ui-list-text" style="margin-bottom:40px;">
+<div ng-controller="order"> 
+<ion-content>  
+		<ul class="ui-list ui-list-text">
 			<li class="ui-border-t" ng-repeat="g in list">
 				<div class="ui-list-info">
-					<h5>{{g.name}}({{g.unit}})</h5>
+					<a href="order_detail.jsp?orderId={{g.id}}"><h5>{{g.title}}</h5></a>
 				</div>
-				<button class="ui-btn-s ui-btn-danger" ng-click="subtract(g)">-</button>
-				<div class="ui-input ui-border-radius" style="width:25px;">
-					<input type="number" name="" ng-model="g.num" size="2" placeholder="0">
-				</div>
-				<button class="ui-btn-s ui-btn-danger" ng-click="add(g)">+</button>
 			</li>
 		</ul>
-		<div class="bar bar-footer">
-<button class="button button-block button-positive" ng-click="save()">
-  Save the change
-</button>
-</div>
-		
-</div>
+            <ion-infinite-scroll ng-if="page.totalPage!=page.pageNo" on-infinite="doRefresh()" distance="1%" ></ion-infinite-scroll>
+</ion-content> 
+</div>	
 </body>
 </html>

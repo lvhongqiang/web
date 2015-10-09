@@ -3,11 +3,11 @@
  */
 package baking.action;
 
+import java.util.List;
 import java.util.Map;
 
-import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
-
 import baking.model.Orders;
+import baking.model.Page;
 
 /**
  * @author lvhon
@@ -16,11 +16,30 @@ import baking.model.Orders;
 public class OrderAction extends BaseAction {
 	private Map<String, Integer> orders;
 	private Orders order;
+	private Page page;
+	private Integer p=1;
+	private Integer s=10;
+	private Integer orderId;
+	private List<Object[]> costDetail;
 	
 	public String save(){
 		order=orderService.save(orders);
 		return SUCCESS;
 	}
+	public String list(){
+		page=orderService.listPage(p, s);
+		return SUCCESS;
+	}
+	public String detail(){
+		costDetail=orderService.costDetial(orderId);
+		
+		return SUCCESS;
+	}
+	public String del(){
+		orderService.delete(orderId);
+		return SUCCESS;
+	}
+	
 
 	public Map<String, Integer> getOrders() {
 		return orders;
@@ -32,5 +51,26 @@ public class OrderAction extends BaseAction {
 
 	public Orders getOrder() {
 		return order;
+	}
+	public Integer getP() {
+		return p;
+	}
+	public void setP(Integer p) {
+		this.p = p;
+	}
+	public Integer getS() {
+		return s;
+	}
+	public void setS(Integer s) {
+		this.s = s;
+	}
+	public Page getPage() {
+		return page;
+	}
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
+	public List<Object[]> getCostDetail() {
+		return costDetail;
 	}
 }

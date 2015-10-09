@@ -3,15 +3,15 @@
  */
 package baking.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.inject.New;
-
 import org.springframework.stereotype.Service;
 
 import baking.model.Inventory;
+import baking.model.OrdersGoods;
 import baking.model.Recipe;
 
 /**
@@ -21,6 +21,21 @@ import baking.model.Recipe;
 @Service
 public class InventoryService extends BaseService {
 
+	/*
+	 * 保存库存更改
+	 */
+	public Boolean saveall(List<Inventory>list){
+		try{
+			for (Inventory inventory : list) {
+				baseDao.saveOrUpdate(inventory);
+			}
+			return true;
+		}catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public List<Inventory>listall(){
 		return baseDao.find("from Inventory order by id");
 	}
@@ -56,18 +71,38 @@ public class InventoryService extends BaseService {
 	 */
 	public Map<Integer, Integer> totalCosts(Integer orderId){
 		Map<Integer, Integer> costsMap= new HashMap<Integer, Integer>();
-		/*
-		Map<Integer, Integer> map = minus(goodsId, num, true);
-		for (Map.Entry<Integer, Integer> cost : map.entrySet()) {
-			Integer id=cost.getKey();
-			Integer id_num=cost.getValue();
-			if(costsMap.containsKey(id)){
-				costsMap.put(id, costsMap.get(id)+id_num);
-			}else {
-				costsMap.put(id, id_num);
+		List<OrdersGoods>oglist=baseDao.find("from OrdersGoods where ordersId=?", orderId);
+		for(OrdersGoods og : oglist){
+			Map<Integer, Integer> map = minus(og.getGoodsId(), og.getNum(), true);
+			for (Map.Entry<Integer, Integer> cost : map.entrySet()) {
+				Integer id=cost.getKey();
+				Integer id_num=cost.getValue();
+				if(costsMap.containsKey(id)){
+					costsMap.put(id, costsMap.get(id)+id_num);
+				}else {
+					costsMap.put(id, id_num);
+				}
 			}
 		}
-		*/
 		return costsMap;
+	}
+	/**
+	 * 取消库存消耗
+	 * @param orderId
+	 * @return
+	 */
+	public Boolean cancelCosts(Integer orderId){
+		try{
+			Map<Integer, Integer>totalCosts=totalCosts(orderId);
+			for (Map.Entry<Integer, Integer> cost : totalCosts.entrySet()) {
+				Inventory inventory=inventoryDAO.findById(cost.getKey());
+				inventory.setNum(inventory.getNum()+cost.getValue());
+				inventoryDAO.update(inventory);
+			}
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

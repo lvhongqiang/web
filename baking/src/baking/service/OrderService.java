@@ -3,6 +3,7 @@
  */
 package baking.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import baking.dao.OrdersDAO;
 import baking.model.Goods;
+import baking.model.Inventory;
 import baking.model.Orders;
 import baking.model.OrdersGoods;
+import baking.model.Page;
 
 /**
  * @author lvhongqiang
@@ -25,6 +27,11 @@ import baking.model.OrdersGoods;
 public class OrderService extends BaseService {
 	private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 	@Autowired private InventoryService inventoryService;
+	
+	public Page listPage(Integer pageNo,Integer pageSize){
+		String hql="from Orders order by createTime desc";
+		return baseDao.findPage(hql, "select count(*) "+hql, pageNo, pageSize);
+	}
 	
 	public Orders save(Map<String, Integer> orders){
 		try {
@@ -62,5 +69,40 @@ public class OrderService extends BaseService {
 			return null;
 		}
 
+	}
+	
+	/**
+	 * 列出某一订单的详细库存消耗
+	 * @param orderId
+	 * @return
+	 */
+	public List<Object[]>costDetial(Integer orderId){
+		List<Object[]>result=new ArrayList<Object[]>();
+		Map<Integer, Integer> map=inventoryService.totalCosts(orderId);
+		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+			Inventory inventory=inventoryDAO.findById(entry.getKey());
+			result.add(new Object[]{inventory,entry.getValue()});
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除订单
+	 * @param orderId
+	 * @return
+	 */
+	public Boolean delete(Integer orderId){
+		try{
+			//取消库存消耗
+			inventoryService.cancelCosts(orderId);
+			
+			//删除订单
+			Orders orders=ordersDAO.findById(orderId);
+			ordersDAO.delete(orders);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

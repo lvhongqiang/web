@@ -36,12 +36,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </button>
 	</div></a>
 	    </li>
-	    <li class="ui-border-t">
+	    <li class="ui-border-t"><a href="order.jsp">
 	<div class="ui-btn-wrap">
 	    <button class="ui-btn-lg ui-btn-primary">
 	        订单
 	    </button>
-	</div>
+	</div></a>
 	    </li>
 	</ul>
 
