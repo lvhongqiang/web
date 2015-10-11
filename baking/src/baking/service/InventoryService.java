@@ -51,9 +51,9 @@ public class InventoryService extends BaseService {
 		for (Recipe recipe : recipes) {
 			Integer inventory=recipe.getInventId();
 			if(map.containsKey(inventory)){
-				map.put(inventory, map.get(inventory)+recipe.getUsage());
+				map.put(inventory, map.get(inventory)+recipe.getUsage()*num);
 			}else {
-				map.put(inventory, recipe.getUsage());
+				map.put(inventory, recipe.getUsage()*num);
 			}
 		}
 		if(drill==null||drill!=true){//真减
