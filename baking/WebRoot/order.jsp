@@ -41,16 +41,16 @@ body{
   <body>
 <div ng-controller="order"> 
 <ion-content>  
-		<ul class="ui-list ui-list-text">
-			<li class="ui-border-t" ng-repeat="g in list">
-				<div class="ui-list-info">
-					<a href="order_detail.jsp?orderId={{g.id}}"><h5>{{g.title}}</h5>
+<ion-list class="ui-list ui-list-text">
+			<ion-item class="ui-border-t" ng-repeat="g in list">
+					<span style="float:left;line-height:15px;">{{$index}}.</span><a href="order_detail.jsp?orderId={{g.id}}" style="float:left;"><h3>{{g.title}}</h3>
 						<p>{{g.postTime | date:'MM月dd日 HH:mm:ss'}}  总价:{{g.money}}<small>(元)</small>  净赚:{{g.money-g.costs}}<small>(元)</small></p>
 					</a>
-				</div>
-			</li>
-		</ul>
-            <ion-infinite-scroll ng-if="page.totalPage!=page.pageNo" on-infinite="doRefresh()" distance="1%" ></ion-infinite-scroll>
+			<ion-option-button class="button button-assertive" on-tap="confirmDelete(expense.id)"> 
+				Delete</ion-option-button>
+			</ion-item>
+            <ion-infinite-scroll ng-if="page.totalPage!=page.pageNo" on-infinite="doRefresh()" distance="100%" ></ion-infinite-scroll>
+</ion-list>
 </ion-content> 
 </div>	
 </body>

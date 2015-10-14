@@ -43,21 +43,14 @@ body{
   
   <body>
 <div ng-controller="orderDetail" > 
-		<ion-tabs class="tabs-positive tabs-icon-only">
-
-  <ion-tab title="Home" icon-on="ion-ios-filing" icon-off="ion-ios-filing-outline">
-    <!-- Tab 1 content -->
-  </ion-tab>
-
-  <ion-tab title="About" icon-on="ion-ios-clock" icon-off="ion-ios-clock-outline">
-    <!-- Tab 2 content -->
-  </ion-tab>
-
-  <ion-tab title="Settings" icon-on="ion-ios-gear" icon-off="ion-ios-gear-outline">
-    <!-- Tab 3 content -->
-  </ion-tab>
-
-</ion-tabs>
+		<ul class="ui-list ui-list-text" ng-init="orderId=<%=orderId %>;getlist();">
+			<li class="ui-border-t" ng-repeat="g in list">
+				<div class="ui-list-info">
+					<h5>{{g[0].name}}</h5>
+				</div>
+				<div>{{g[1]}}{{g[0].unit}}</div>
+			</li>
+		</ul>
 </div>	
 </body>
 </html>
