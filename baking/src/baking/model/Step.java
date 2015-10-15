@@ -13,6 +13,7 @@ public class Step implements java.io.Serializable {
 	private String stepName;
 	private String detail;
 	private Integer stepOrder;
+	private Integer maxUnit;
 
 	// Constructors
 
@@ -22,11 +23,12 @@ public class Step implements java.io.Serializable {
 
 	/** full constructor */
 	public Step(Integer goodsId, String stepName, String detail,
-			Integer stepOrder) {
+			Integer stepOrder,Integer maxUnit) {
 		this.goodsId = goodsId;
 		this.stepName = stepName;
 		this.detail = detail;
 		this.stepOrder = stepOrder;
+		this.maxUnit = maxUnit;
 	}
 
 	// Property accessors
@@ -69,6 +71,14 @@ public class Step implements java.io.Serializable {
 
 	public void setStepOrder(Integer stepOrder) {
 		this.stepOrder = stepOrder;
+	}
+
+	public Integer getMaxUnit() {
+		return maxUnit;
+	}
+
+	public void setMaxUnit(Integer maxUnit) {
+		this.maxUnit = maxUnit;
 	}
 
 }

@@ -20,7 +20,7 @@ String orderId=request.getParameter("orderId");
 	<meta charset="UTF-8">
 <%@ include file="/inc/src.jsp"%>
 <script type="text/javascript" src="ionic-v1.1.0/js/ionic.bundle.js"></script>
-<script type="text/javascript" src="js/module/order_detail.js"></script>
+<script type="text/javascript" src="js/module/order_costs.js"></script>
 <link href="ionic-v1.1.0/css/ionic.css" rel="stylesheet">
 
 <style>
@@ -41,7 +41,7 @@ body{
   </head>
   
   <body>
-<div ng-controller="orderDetail" > 
+<div ng-controller="orderCosts" > 
 		<ul class="ui-list ui-list-text" ng-init="orderId=<%=orderId %>;getlist();">
 			<li class="ui-border-t" ng-repeat="g in list">
 				<div class="ui-list-info">

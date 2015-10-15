@@ -30,5 +30,10 @@
                 <comment>顺序</comment>
             </column>
         </property>
+        <property name="maxUnit" type="java.lang.Integer">
+            <column name="max_unit">
+                <comment>每一次能做的最大数量</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

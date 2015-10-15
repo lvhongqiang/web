@@ -21,6 +21,7 @@ public class OrderAction extends BaseAction {
 	private Integer s=10;
 	private Integer orderId;
 	private List<Object[]> costDetail;
+	private List<Object[]>details;
 	
 	public String save(){
 		order=orderService.save(orders);
@@ -30,9 +31,13 @@ public class OrderAction extends BaseAction {
 		page=orderService.listPage(p, s);
 		return SUCCESS;
 	}
-	public String detail(){
+	public String costs(){
 		costDetail=orderService.costDetial(orderId);
 		
+		return SUCCESS;
+	}
+	public String detail(){
+		details=orderService.details(orderId);
 		return SUCCESS;
 	}
 	public String del(){

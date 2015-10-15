@@ -18,6 +18,7 @@ import baking.model.Inventory;
 import baking.model.Orders;
 import baking.model.OrdersGoods;
 import baking.model.Page;
+import baking.model.Step;
 
 /**
  * @author lvhongqiang
@@ -83,6 +84,40 @@ public class OrderService extends BaseService {
 			Inventory inventory=inventoryDAO.findById(entry.getKey());
 			result.add(new Object[]{inventory,entry.getValue()});
 		}
+		return result;
+	}
+	
+	/**
+	 * 列出某一订单的备料信息
+	 * @param orderId
+	 * @return
+	 */
+	public List<Object[]>details(Integer orderId){
+		List<Object[]>result=new ArrayList<Object[]>();
+
+		List<Step>steps=stepDAO.findAll();
+		for (Step step : steps) {
+			List<Integer>goodsIds=baseDao.find("select goodsId from Recipe where stepId=?",step.getId());
+			
+			
+		}
+		
+		List<OrdersGoods>oglist=baseDao.find("from OrdersGoods where ordersId=?", orderId);
+		for(OrdersGoods og : oglist){
+			
+			
+			Map<Integer, Integer> map = minus(og.getGoodsId(), og.getNum(), true);
+			for (Map.Entry<Integer, Integer> cost : map.entrySet()) {
+				Integer id=cost.getKey();
+				Integer id_num=cost.getValue();
+				if(costsMap.containsKey(id)){
+					costsMap.put(id, costsMap.get(id)+id_num);
+				}else {
+					costsMap.put(id, id_num);
+				}
+			}
+		}
+		
 		return result;
 	}
 	
