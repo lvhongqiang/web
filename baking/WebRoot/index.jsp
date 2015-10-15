@@ -1,14 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/inc/tag.jsp"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+
 
 <!doctype html>
 <html lang="en" ng-app="baking">
   <head>
-    <base href="<%=basePath%>">
     
     <title>My JSP 'index.jsp' starting page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">

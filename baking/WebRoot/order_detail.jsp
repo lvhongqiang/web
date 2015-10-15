@@ -11,7 +11,6 @@ String orderId=request.getParameter("orderId");
 <!doctype html>
 <html lang="en" ng-app="baking">
   <head>
-    <base href="<%=basePath%>">
     
     <title>My JSP 'index.jsp' starting page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
