@@ -15,6 +15,7 @@ public class Goods implements java.io.Serializable {
 	private String unit;
 	private Long price;
 	private Long cost;
+	private Integer merge;
 
 	// Constructors
 
@@ -86,6 +87,14 @@ public class Goods implements java.io.Serializable {
 
 	public void setCost(Long cost) {
 		this.cost = cost;
+	}
+
+	public Integer getMerge() {
+		return merge;
+	}
+
+	public void setMerge(Integer merge) {
+		this.merge = merge;
 	}
 
 }

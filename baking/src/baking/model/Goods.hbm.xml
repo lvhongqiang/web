@@ -40,5 +40,10 @@
                 <comment>每份成本</comment>
             </column>
         </property>
+        <property name="merge" type="java.lang.Integer">
+            <column name="merge">
+                <comment>合并id</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

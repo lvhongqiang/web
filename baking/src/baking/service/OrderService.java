@@ -19,6 +19,7 @@ import baking.model.Orders;
 import baking.model.OrdersGoods;
 import baking.model.Page;
 import baking.model.Step;
+import baking.model.vo.Merge;
 
 /**
  * @author lvhongqiang
@@ -94,33 +95,97 @@ public class OrderService extends BaseService {
 	 */
 	public List<Object[]>details(Integer orderId){
 		List<Object[]>result=new ArrayList<Object[]>();
+		
 
-		List<Step>steps=stepDAO.findAll();
-		for (Step step : steps) {
-			List<Integer>goodsIds=baseDao.find("select goodsId from Recipe where stepId=?",step.getId());
+		List<OrdersGoods>oglist=baseDao.find("from OrdersGoods where ordersId=?", orderId);
+		//找到可以合并的商品，并分组。
+		List<Merge> mergeList = merge(oglist);
+		
+		//对每一组的商品计算备料单
+		for (Merge merge : mergeList) {
+			List<OrdersGoods>list=merge.getList();
 			
+			//列出所有商品的id
+			String gids = getGids(list);
+			
+			List<Step> stepList=baseDao.find("from Step where goodsId in ("+gids+") order by stepOrder asc");
+			for (Step step : stepList) {
+				
+				
+			}
 			
 		}
 		
-		List<OrdersGoods>oglist=baseDao.find("from OrdersGoods where ordersId=?", orderId);
+
+		
 		for(OrdersGoods og : oglist){
 			
-			
-			Map<Integer, Integer> map = minus(og.getGoodsId(), og.getNum(), true);
-			for (Map.Entry<Integer, Integer> cost : map.entrySet()) {
-				Integer id=cost.getKey();
-				Integer id_num=cost.getValue();
-				if(costsMap.containsKey(id)){
-					costsMap.put(id, costsMap.get(id)+id_num);
-				}else {
-					costsMap.put(id, id_num);
-				}
-			}
 		}
 		
 		return result;
 	}
+
+	/**
+	 * 列出所有商品的id
+	 * @param list
+	 * @return
+	 */
+	private String getGids(List<OrdersGoods> list) {
+		String gids="";
+		for (int i=0;i<list.size();i++) {
+			OrdersGoods og = list.get(i);
+			if(i==0){
+				gids+=og.getGoodsId();					
+			}else {
+				gids+=","+og.getGoodsId();
+			}
+		}
+		return gids;
+	}
+
+	/**
+	 * 找到可以合并的商品，并分组。
+	 * @param oglist
+	 * @return
+	 */
+	private List<Merge> merge(List<OrdersGoods> oglist) {
+		List<Merge>merges=new ArrayList<Merge>();
+		for(OrdersGoods og : oglist){
+			Goods goods = goodsDAO.findById(og.getGoodsId());
+			if(goods.getMerge()==null){//不跟别人合并
+				List<OrdersGoods>list=new ArrayList<OrdersGoods>();
+				list.add(og);
+				merges.add(new Merge(list, null));//直接加到列表里
+			}else {
+				Integer index=findByMerge(goods.getMerge(),merges);
+				if(index>-1){
+					merges.get(index).getList().add(og);
+				}else {
+					List<OrdersGoods>list=new ArrayList<OrdersGoods>();
+					list.add(og);
+					merges.add(new Merge(list,goods.getMerge()));//新建list加到列表里
+				}
+			}
+			
+		}
+		return merges;
+	}
 	
+	/**
+	 * @param mergeId
+	 * @param merges
+	 * @return
+	 */
+	private Integer findByMerge(Integer mergeId, List<Merge> merges) {
+		for (int i = 0; i < merges.size(); i++) {
+			Merge og=merges.get(i);
+			if(mergeId!=null&&mergeId.equals(og.getMergeId())){
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	/**
 	 * 删除订单
 	 * @param orderId
