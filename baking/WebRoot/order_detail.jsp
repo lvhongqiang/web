@@ -42,21 +42,31 @@ body{
   
   <body>
 <div ng-controller="orderDetail" > 
-		<ion-tabs class="tabs-positive tabs-icon-only">
-
-  <ion-tab title="Home" icon-on="ion-ios-filing" icon-off="ion-ios-filing-outline">
-    <!-- Tab 1 content -->
-  </ion-tab>
-
-  <ion-tab title="About" icon-on="ion-ios-clock" icon-off="ion-ios-clock-outline">
-    <!-- Tab 2 content -->
-  </ion-tab>
-
-  <ion-tab title="Settings" icon-on="ion-ios-gear" icon-off="ion-ios-gear-outline">
-    <!-- Tab 3 content -->
-  </ion-tab>
-
-</ion-tabs>
+		<ul class="ui-list ui-list-pure ui-border-tb" ng-init="orderId=<%=orderId %>;getlist();">
+			<li class="ui-border-t" >
+			<h6>订单信息：</h6>
+			<span style="font-size:140%; ">{{order.title}}</span> ({{order.postTime | date:'MM月dd日 HH:mm:ss'}})  总价:{{order.money}}<small>(元)</small>  净赚:{{order.money-order.costs}}<small>(元)</small>
+			</li>
+			<li class="ui-border-t" >
+			<h6>备料详细列表：</h6>
+			</li>
+			<li class="ui-border-t" ng-repeat="g in list">
+				<h3 ng-if="list.length>1">第{{$index+1}}组: {{g.title}}</h3>
+				<p>
+				<ul  class="ui-list ui-list-pure ui-border-tb">
+					<li class="ui-border-t" ng-repeat="s in g.steplist">
+							<h4>step{{$index+1}}:{{s.step.stepName}}</h4>
+						<ul class="ui-list ui-list-pure ui-border-tb">
+							<li class="ui-border-t" ng-repeat="p in s.list">
+									<h5 ng-if="s.list.length>1">第{{$index+1}}锅：{{p.title}}</h5>
+								<p ng-repeat="r in p.recipeList">{{r.inventory.name}}:  {{r.usage}} {{r.inventory.unit}}</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				</p>
+			</li>
+		</ul>
 </div>	
 </body>
 </html>

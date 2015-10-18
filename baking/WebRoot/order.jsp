@@ -42,7 +42,7 @@ body{
 <ion-content>  
 <ion-list class="ui-list ui-list-text">
 			<ion-item class="ui-border-t" ng-repeat="g in list">
-					<span style="float:left;line-height:15px;">{{$index}}.</span><a href="order_detail.jsp?orderId={{g.id}}" style="float:left;"><h3>{{g.title}}</h3>
+					<span style="float:left;line-height:15px;">{{$index+1}}. </span> <a href="order_detail.jsp?orderId={{g.id}}" style="float:left;"><h3>{{g.title}}</h3>
 						<p>{{g.postTime | date:'MM月dd日 HH:mm:ss'}}  总价:{{g.money}}<small>(元)</small>  净赚:{{g.money-g.costs}}<small>(元)</small></p>
 					</a>
 			<ion-option-button class="button button-assertive" on-tap="confirmDelete(expense.id)"> 

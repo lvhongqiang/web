@@ -8,6 +8,7 @@ import java.util.Map;
 
 import baking.model.Orders;
 import baking.model.Page;
+import baking.model.vo.PrepareGroup;
 
 /**
  * @author lvhon
@@ -21,7 +22,7 @@ public class OrderAction extends BaseAction {
 	private Integer s=10;
 	private Integer orderId;
 	private List<Object[]> costDetail;
-	private List<Object[]>details;
+	private List<PrepareGroup>details;
 	
 	public String save(){
 		order=orderService.save(orders);
@@ -38,6 +39,7 @@ public class OrderAction extends BaseAction {
 	}
 	public String detail(){
 		details=orderService.details(orderId);
+		order=(Orders)orderService.get(Orders.class, orderId);
 		return SUCCESS;
 	}
 	public String del(){
@@ -77,5 +79,8 @@ public class OrderAction extends BaseAction {
 	}
 	public List<Object[]> getCostDetail() {
 		return costDetail;
+	}
+	public List<PrepareGroup> getDetails() {
+		return details;
 	}
 }

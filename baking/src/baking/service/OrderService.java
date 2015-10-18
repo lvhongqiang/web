@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.inject.New;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,12 @@ import baking.model.Inventory;
 import baking.model.Orders;
 import baking.model.OrdersGoods;
 import baking.model.Page;
+import baking.model.Recipe;
 import baking.model.Step;
 import baking.model.vo.Merge;
+import baking.model.vo.Prepare;
+import baking.model.vo.PrepareGroup;
+import baking.model.vo.PrepareStep;
 
 /**
  * @author lvhongqiang
@@ -93,36 +99,156 @@ public class OrderService extends BaseService {
 	 * @param orderId
 	 * @return
 	 */
-	public List<Object[]>details(Integer orderId){
-		List<Object[]>result=new ArrayList<Object[]>();
-		
-
+	public List<PrepareGroup>details(Integer orderId){
+		List<PrepareGroup>result=new ArrayList<PrepareGroup>();
 		List<OrdersGoods>oglist=baseDao.find("from OrdersGoods where ordersId=?", orderId);
 		//找到可以合并的商品，并分组。
 		List<Merge> mergeList = merge(oglist);
 		
 		//对每一组的商品计算备料单
 		for (Merge merge : mergeList) {
+			PrepareGroup prepareGroup=new PrepareGroup();
 			List<OrdersGoods>list=merge.getList();
+			prepareGroup.setTitle(getTitle(list));
 			
 			//列出所有商品的id
 			String gids = getGids(list);
-			
 			List<Step> stepList=baseDao.find("from Step where goodsId in ("+gids+") order by stepOrder asc");
+			
+			List<PrepareStep>prepareSteps=new ArrayList<PrepareStep>();
 			for (Step step : stepList) {
-				
-				
-			}
-			
-		}
-		
+				PrepareStep prepareStep=new PrepareStep();
+				prepareStep.setStep(step);
 
-		
-		for(OrdersGoods og : oglist){
-			
+				
+				List<Prepare>prepares=new ArrayList<Prepare>();
+				//
+				List<OrdersGoods>ogtempList=cloneList(list);
+				for (int i=0;i<ogtempList.size();i++) {
+					OrdersGoods og = ogtempList.get(i);
+					
+					Integer count=baseDao.countHql("select count(*) from Recipe where stepId=? and goodsId=?",new Object[]{step.getId(),og.getGoodsId()});
+					if(count!=null&&count>0){//如果此商品有当前的步骤step
+						pushTheOg(og, prepares, step);
+					}
+				}
+				
+				for (Prepare prepare : prepares) {
+					List<Recipe> recipeList=getRecipeList(prepare.getOgList(),step);
+					prepare.setRecipeList(recipeList);
+					prepare.setTitle(getTitle(prepare.getOgList()));
+				}
+				
+				prepareStep.setList(prepares);
+				prepareSteps.add(prepareStep);
+			}
+			prepareGroup.setSteplist(prepareSteps);
+			result.add(prepareGroup);
+		}
+		return result;
+	}
+	
+	/**
+	 * 根据商品list计算备料list
+	 * @param ogList
+	 * @param step
+	 * @return
+	 */
+	private List<Recipe> getRecipeList(List<OrdersGoods> ogList, Step step) {
+		List<Recipe> result=new ArrayList<Recipe>();
+		for (OrdersGoods og : ogList) {
+			List<Recipe> list= baseDao.find("from Recipe where stepId=? and goodsId=?",new Object[]{step.getId(),og.getGoodsId()});
+			for (Recipe recipe : list) {
+				Integer index=findByid(result, recipe.getInventId());
+				if(index>-1){
+					Recipe r=result.get(index);
+					r.setUsage(r.getUsage()+recipe.getUsage()*og.getNum());
+				}else {
+					Inventory inventory=inventoryDAO.findById(recipe.getInventId());
+					Recipe r=new Recipe();
+					r.setInventId(recipe.getInventId());
+					r.setInventory(inventory);
+					r.setUsage(recipe.getUsage()*og.getNum());
+					result.add(r);
+				}
+			}
+		}
+		return result;
+	}
+
+	private Integer findByid(List<Recipe>list,Integer id){
+		for (int i = 0; i < list.size(); i++) {
+			if(id!=null&&id.equals(list.get(i).getInventId())){
+				return i;
+			}
+		}
+		return -1;
+	}
+	 
+	
+	/**
+	 * 把当前商品及数量放入prepare列表中
+	 * @param og
+	 * @param prepares
+	 * @param step
+	 * @return
+	 */
+	private boolean pushTheOg(OrdersGoods og,List<Prepare>prepares, Step step){
+		Integer max=step.getMaxUnit();
+
+		Prepare p=new Prepare();
+		boolean newone=true;//是否一个新的prepare
+		if(prepares.size()>0){//list非空，已存在prepare，应先填满已有的prepare
+			Prepare preP=prepares.get(prepares.size()-1);
+			if(preP.getNum()<step.getMaxUnit()){
+				max-=preP.getNum();
+				p=preP;
+				newone=false;
+			}
 		}
 		
+		while(true) {
+			if(og.getNum()<=max){//商品数量没有超过step最大值，直接加到列表中。
+				p.getOgList().add(og);
+				if(newone){
+					prepares.add(p);
+				}
+				break;
+			}else {//超过step最大值，分成多个prepare
+				p.getOgList().add(new OrdersGoods(og.getOrdersId(), og.getGoodsId(), max));
+				og.setNum(og.getNum()-max);//减去一个prepare的量。
+				if(newone){
+					prepares.add(p);
+				}
+			}
+			p=new Prepare();
+			newone=true;
+			max=step.getMaxUnit();
+		}
+		return true;
+		
+	}
+	
+	private List<OrdersGoods> cloneList(List<OrdersGoods> list) {
+		List<OrdersGoods>result=new ArrayList<OrdersGoods>();
+		for (OrdersGoods og : list) {
+			result.add(new OrdersGoods(og.getOrdersId(), og.getGoodsId(), og.getNum()));
+		}
 		return result;
+	}
+
+	/**
+	 * 根据订单信息生成标题 例如：芝x1 蓝x2
+	 * @param list
+	 * @return
+	 */
+	private String getTitle(List<OrdersGoods> list) {
+		String title="";
+		for (OrdersGoods og : list) {
+			Goods goods=goodsDAO.findById(og.getGoodsId());
+			title+=goods.getShortName()+"x"+og.getNum()+" ";
+		}
+		return title;
 	}
 
 	/**
