@@ -20,21 +20,21 @@
 <ul class="ui-list ui-list-pure">
     <li class="ui-border-t"><a href="make.jsp">
 	<div class="ui-btn-wrap">
-	    <button class="ui-btn-lg ui-btn-primary" >
+	    <button class="ui-btn-lg ui-btn-danger" >
 	        做一单!
 	    </button>
 	</div></a>
 	    </li>
 	    <li class="ui-border-t"><a href="inventory.jsp">
 	<div class="ui-btn-wrap">
-	    <button class="ui-btn-lg ui-btn-primary">
+	    <button class="ui-btn-lg ui-btn-danger">
 	        库存
 	    </button>
 	</div></a>
 	    </li>
 	    <li class="ui-border-t"><a href="order.jsp">
 	<div class="ui-btn-wrap">
-	    <button class="ui-btn-lg ui-btn-primary">
+	    <button class="ui-btn-lg ui-btn-danger">
 	        订单
 	    </button>
 	</div></a>

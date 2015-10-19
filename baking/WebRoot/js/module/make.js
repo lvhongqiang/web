@@ -47,7 +47,7 @@ baking.controller('makeOrder', [ '$scope', '$http','$ionicPopup', function($scop
 					       template: 'Honey, you have just saved one order. (●\'◡\'●) '
 					     })
 					     .then(function(res) {
-					    	 window.location.href='index.jsp';
+					    	 window.location.href='order_detail.jsp?orderId='+$scope.order.id;
 					     });
 				}
 			});

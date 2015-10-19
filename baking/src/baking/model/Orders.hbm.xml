@@ -43,5 +43,15 @@
                 <comment>备注</comment>
             </column>
         </property>
+        <property name="costsReduced" type="java.lang.Integer">
+            <column name="costs_reduced">
+                <comment>库存已减：0否，1是</comment>
+            </column>
+        </property>
+        <property name="deleted" type="java.lang.Integer">
+            <column name="deleted">
+                <comment>已删除：0否，1是</comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>

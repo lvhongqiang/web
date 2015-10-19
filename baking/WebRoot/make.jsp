@@ -54,7 +54,7 @@ body{
 		<ul class="ui-list ui-list-pure ui-border-t">
 		<li class="ui-border-t">
 	<div class="ui-btn-wrap">
-				<button class="ui-btn-lg ui-btn-primary" ng-click="save()">确定</button>
+				<button class="ui-btn-lg ui-btn-danger" ng-click="save()">确定</button>
 			</div>
 		</li>
 	</ul>

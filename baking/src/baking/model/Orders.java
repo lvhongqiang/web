@@ -19,6 +19,8 @@ public class Orders implements java.io.Serializable {
 	private Long costs;
 	private Integer finished;
 	private String remark;
+	private Integer costsReduced;
+	private Integer deleted;
 
 	// Constructors
 
@@ -105,6 +107,22 @@ public class Orders implements java.io.Serializable {
 
 	public void setCosts(Long costs) {
 		this.costs = costs;
+	}
+
+	public Integer getCostsReduced() {
+		return costsReduced;
+	}
+
+	public void setCostsReduced(Integer costsReduced) {
+		this.costsReduced = costsReduced;
+	}
+
+	public Integer getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Integer deleted) {
+		this.deleted = deleted;
 	}
 
 }

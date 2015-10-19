@@ -46,6 +46,10 @@ public class OrderAction extends BaseAction {
 		orderService.delete(orderId);
 		return SUCCESS;
 	}
+	public String costsReduce(){
+		orderService.delete(orderId);
+		return SUCCESS;
+	}
 	
 
 	public Map<String, Integer> getOrders() {

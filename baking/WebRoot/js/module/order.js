@@ -20,6 +20,16 @@ baking.controller('order', [ '$scope', '$http','$ionicPopup', function($scope, $
 		})
 	}
 	$scope.doRefresh=$scope.more;
-	
 	$scope.more();
+
+	$scope.confirmDelete=function(g){
+		$http.post("json_order_del.action",{orderId:g.id}).then(function() {
+			for (i in $scope.list){
+				if($scope.list[i].id==g.id){
+					$scope.list.splice(i,1);
+				}
+			}
+		})
+		
+	}
 } ]);

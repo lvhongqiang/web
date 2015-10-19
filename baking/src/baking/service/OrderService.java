@@ -65,7 +65,7 @@ public class OrderService extends BaseService {
 					baseDao.save(oGoods);
 					
 					//减库存
-					inventoryService.minus(goodsId, num, null);
+					inventoryService.minus(goodsId, num, true);
 					
 				}
 			}
@@ -86,7 +86,7 @@ public class OrderService extends BaseService {
 	 */
 	public List<Object[]>costDetial(Integer orderId){
 		List<Object[]>result=new ArrayList<Object[]>();
-		Map<Integer, Integer> map=inventoryService.totalCosts(orderId);
+		Map<Integer, Integer> map=inventoryService.totalCosts(orderId,false);
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 			Inventory inventory=inventoryDAO.findById(entry.getKey());
 			result.add(new Object[]{inventory,entry.getValue()});
@@ -113,7 +113,8 @@ public class OrderService extends BaseService {
 			
 			//列出所有商品的id
 			String gids = getGids(list);
-			List<Step> stepList=baseDao.find("from Step where goodsId in ("+gids+") order by stepOrder asc");
+			List<Integer>stepIdList=baseDao.find("select distinct stepId from Recipe where goodsId in ("+gids+")");
+			List<Step> stepList=baseDao.find("from Step where id in ("+getIds(stepIdList)+") order by stepOrder asc");
 			
 			List<PrepareStep>prepareSteps=new ArrayList<PrepareStep>();
 			for (Step step : stepList) {
@@ -268,7 +269,23 @@ public class OrderService extends BaseService {
 		}
 		return gids;
 	}
-
+	/**
+	 * 列出所有step的id
+	 * @param list
+	 * @return
+	 */
+	private String getIds(List<Integer> list) {
+		String ids="";
+		for (int i=0;i<list.size();i++) {
+			Integer id = list.get(i);
+			if(i==0){
+				ids+=id;					
+			}else {
+				ids+=","+id;
+			}
+		}
+		return ids;
+	}
 	/**
 	 * 找到可以合并的商品，并分组。
 	 * @param oglist
