@@ -30,11 +30,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 .ui-list-info{
 	width:150px;
 }
+body{
+	overflow:auto;
+	-webkit-overflow-scrolling: touch;
+}
 </style>
   </head>
   
   <body>
-<div ng-controller="makeOrder"  style="height:100%">
+<div ng-controller="makeOrder">
 		<ul class="ui-list ui-list-text">
 			<li class="ui-border-t" ng-repeat="g in goods">
 				<div class="ui-list-info">

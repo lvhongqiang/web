@@ -13,6 +13,7 @@ public class Inventory implements java.io.Serializable {
 	private Integer type;
 	private Integer num;
 	private String unit;
+	private Integer showOrder;
 
 	// Constructors
 
@@ -93,6 +94,14 @@ public class Inventory implements java.io.Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Integer getShowOrder() {
+		return showOrder;
+	}
+
+	public void setShowOrder(Integer showOrder) {
+		this.showOrder = showOrder;
 	}
 
 }

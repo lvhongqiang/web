@@ -37,7 +37,7 @@ public class InventoryService extends BaseService {
 	}
 	
 	public List<Inventory>listall(){
-		return baseDao.find("from Inventory order by id");
+		return baseDao.find("from Inventory order by showOrder");
 	}
 	
 	/**

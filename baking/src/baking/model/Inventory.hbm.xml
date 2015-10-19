@@ -30,5 +30,10 @@
                 <comment>单位</comment>
             </column>
         </property>
+        <property name="showOrder" type="java.lang.Integer">
+            <column name="show_order">
+                <comment></comment>
+            </column>
+        </property>
     </class>
 </hibernate-mapping>
