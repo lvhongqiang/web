@@ -2,6 +2,7 @@ var baking = angular.module('baking', ['ionic']);
 
 baking.controller('order', [ '$scope', '$http','$ionicPopup', function($scope, $http,$ionicPopup) {
 
+	
 	$scope.list = [];
 	$scope.page={};
 	$scope.page.nextPage=1;
@@ -32,4 +33,5 @@ baking.controller('order', [ '$scope', '$http','$ionicPopup', function($scope, $
 		})
 		
 	}
+	
 } ]);

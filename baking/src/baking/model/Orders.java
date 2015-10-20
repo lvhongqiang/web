@@ -30,6 +30,7 @@ public class Orders implements java.io.Serializable {
 		finished=0;
 		money=0l;
 		costs=0l;
+		costsReduced=1;
 	}
 
 	/** full constructor */

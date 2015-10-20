@@ -37,7 +37,7 @@ public class OrderService extends BaseService {
 	@Autowired private InventoryService inventoryService;
 	
 	public Page listPage(Integer pageNo,Integer pageSize){
-		String hql="from Orders order by createTime desc";
+		String hql="from Orders where deleted is null or deleted<>1 order by createTime desc";
 		return baseDao.findPage(hql, "select count(*) "+hql, pageNo, pageSize);
 	}
 	
@@ -163,13 +163,14 @@ public class OrderService extends BaseService {
 				Integer index=findByid(result, recipe.getInventId());
 				if(index>-1){
 					Recipe r=result.get(index);
-					r.setUsage(r.getUsage()+recipe.getUsage()*og.getNum());
+					r.setTotalUsage(r.getTotalUsage()+recipe.getUsage()*og.getNum().floatValue());
 				}else {
 					Inventory inventory=inventoryDAO.findById(recipe.getInventId());
 					Recipe r=new Recipe();
 					r.setInventId(recipe.getInventId());
 					r.setInventory(inventory);
-					r.setUsage(recipe.getUsage()*og.getNum());
+					r.setUsage(recipe.getUsage());
+					r.setTotalUsage(recipe.getUsage()*og.getNum().floatValue());
 					result.add(r);
 				}
 			}
@@ -341,7 +342,8 @@ public class OrderService extends BaseService {
 			
 			//删除订单
 			Orders orders=ordersDAO.findById(orderId);
-			ordersDAO.delete(orders);
+			orders.setDeleted(1);
+			ordersDAO.update(orders);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();

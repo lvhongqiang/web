@@ -25,7 +25,7 @@
                 <comment>步骤id</comment>
             </column>
         </property>
-        <property name="usage" type="java.lang.Integer">
+        <property name="usage" type="java.lang.Float">
             <column name="usage">
                 <comment>用量</comment>
             </column>

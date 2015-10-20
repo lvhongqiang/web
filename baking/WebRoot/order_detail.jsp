@@ -37,6 +37,7 @@ body,ul{
 	overflow:auto;
 	-webkit-overflow-scrolling: touch;
 }
+.alert{color:red;}
 </style>
   </head>
   
@@ -63,7 +64,7 @@ body,ul{
 					<ul class="ui-list ui-list-pure ui-border-tb">
 						<li class="ui-border-t" ng-repeat="p in s.list">
 								<h5 ng-if="s.list.length>1">第{{$index+1}}锅：{{p.title}}</h5>
-							<p ng-repeat="r in p.recipeList">{{r.inventory.name}}:  {{r.usage}} {{r.inventory.unit}}</p>
+							<p ng-repeat="r in p.recipeList">{{r.inventory.name}}:  {{r.totalUsage}} {{r.inventory.unit}}  <small ng-class="{'alert':r.inventory.num<(r.usage*5)}" style="float:right;">（<small>库</small>{{r.inventory.num}}）</small></p>
 						</li>
 					</ul>
 				</li>
@@ -75,20 +76,24 @@ body,ul{
 	<ul class="ui-list ui-list-pure ui-border-tb" ng-init="getcostlist();" ng-show="showUl=='costs'">
 		<li class="ui-border-t" style="padding:20px;">
 				<h4>原料：</h4>
-				<p ng-repeat="g in costlist | filter : {type : 1}">{{g[0].name}}   {{g[1]}} {{g[0].unit}}</p>
+				<p ng-repeat="g in costlist | filter : {type : 1}">{{g[0].name}}   {{g[1]}} {{g[0].unit}}    <small ng-class="{'alert':g[0].num<g[1]}" style="float:right;">（<small>库</small>{{g[0].num}}）</small></p>
 		</li>
 		<li class="ui-border-t" style="padding:20px;">
 				<h4>包装：</h4>
-				<p ng-repeat="g in costlist | filter : {type : 2}">{{g[0].name}}   {{g[1]}} {{g[0].unit}}</p>
+				<p ng-repeat="g in costlist | filter : {type : 2}">{{g[0].name}}   {{g[1]}} {{g[0].unit}}  <small ng-class="{'alert':g[0].num<g[1]}" style="float:right;">（<small>库</small>{{g[0].num}}）</small></p>
 		</li>
 		<li class="ui-border-t" style="padding:20px;">
+			<div class="row">
+			  <div class="col"><button class="ui-btn-lg ui-btn-danger" ng-click="confirmDelete()">删除订单并还原相应库存</button></div>
+			</div>
+		<!--	
 			<div class="row">
 			  <div class="col"><button class="ui-btn-lg ui-btn-danger" ng-click="save()">减去相应库存</button></div>
 			</div>
 			<div class="row">
 			  <div class="col col-75"><h3 style="color:#aaa;">已减去相应库存</h3></div>
 			  <div class="col"><button class="ui-btn ui-btn-danger" ng-click="save()">还原</button></div>
-			</div>
+			</div>-->
 		</li>
 	</ul>	
 </body>

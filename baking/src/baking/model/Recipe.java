@@ -12,10 +12,11 @@ public class Recipe implements java.io.Serializable {
 	private Integer goodsId;
 	private Integer inventId;
 	private Integer stepId;
-	private Integer usage;
+	private Float usage;
 	private String unit;
 	private Integer showOrder;
 	
+	private Float totalUsage;
 	private Inventory inventory;
 
 	// Constructors
@@ -26,7 +27,7 @@ public class Recipe implements java.io.Serializable {
 
 	/** full constructor */
 	public Recipe(Integer goodsId, Integer inventId, Integer stepId,
-			Integer usage, String unit, Integer showOrder) {
+			Float usage, String unit, Integer showOrder) {
 		this.goodsId = goodsId;
 		this.inventId = inventId;
 		this.stepId = stepId;
@@ -69,11 +70,11 @@ public class Recipe implements java.io.Serializable {
 		this.stepId = stepId;
 	}
 
-	public Integer getUsage() {
+	public Float getUsage() {
 		return this.usage;
 	}
 
-	public void setUsage(Integer usage) {
+	public void setUsage(Float usage) {
 		this.usage = usage;
 	}
 
@@ -124,6 +125,14 @@ public class Recipe implements java.io.Serializable {
 
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;
+	}
+
+	public Float getTotalUsage() {
+		return totalUsage;
+	}
+
+	public void setTotalUsage(Float totalUsage) {
+		this.totalUsage = totalUsage;
 	}
 
 }
