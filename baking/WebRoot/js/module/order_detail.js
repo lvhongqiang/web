@@ -21,7 +21,20 @@ baking.controller('orderDetail', [ '$scope', '$http','$ionicPopup', function($sc
 	$scope.confirmDelete=function(){
 		$ionicPopup.confirm({
 		     title: 'Consume Delete',
-		     template: 'Are you sure you want to delete this order honey?'
+		     template: 'Are you sure you want to delete this order honey?',
+				    buttons:[
+			             {
+			            	 text:'Delete!',
+			            	 type:'button-assertive',
+			            	 onTap: function(e) {
+			            		 return true;
+			            	 }
+			             },
+			             {
+			            	 text:'Cancel',
+			            	 type:'button-light'
+			             }
+				             ]
 		   }).then(function(res) {
 		     if(res) {
 		    	 $http.post("json_order_del.action",{orderId:$scope.order.id}).then(function() {
