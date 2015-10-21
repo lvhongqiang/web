@@ -37,6 +37,7 @@ body{
 .button.button-block{
 	margin:0px;
 }
+.bar-footer{padding:0px 5px;}
 </style>
   </head>
   
@@ -55,7 +56,7 @@ body{
 			</li>
 		</ul>
 		<div class="bar bar-footer">
-<button class="button button-block button-positive" ng-click="save()">
+<button class="button button-block button-assertive" ng-click="save()">
   Save the change
 </button>
 </div>
