@@ -36,8 +36,19 @@ public class InventoryService extends BaseService {
 		}
 	}
 	
+	public Boolean add(Inventory inventory){
+		try {
+			baseDao.save(inventory);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
 	public List<Inventory>listall(){
-		return baseDao.find("from Inventory order by showOrder");
+		return baseDao.find("from Inventory order by showOrder asc");
 	}
 	
 	/**

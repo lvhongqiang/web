@@ -16,6 +16,7 @@ public class InventoryAction extends BaseAction {
 
 	private List<Inventory> list;
 	private Boolean ok;
+	private Inventory newone;
 
 	public String listall(){
 		list=inventoryService.listall();
@@ -24,6 +25,11 @@ public class InventoryAction extends BaseAction {
 
 	public String save(){
 		ok=inventoryService.saveall(list);
+		return SUCCESS;
+	}
+	
+	public String add(){
+		ok=inventoryService.add(newone);
 		return SUCCESS;
 	}
 	
@@ -37,5 +43,13 @@ public class InventoryAction extends BaseAction {
 
 	public void setList(List<Inventory> list) {
 		this.list = list;
+	}
+
+	public Inventory getNewone() {
+		return newone;
+	}
+
+	public void setNewone(Inventory newone) {
+		this.newone = newone;
 	}
 }
