@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<!-- Post -->
 								<article class="box post post-excerpt">
 									<header>
-										<h2><a href="blog/indexblog.action?id=${b.id}">${b.title }</a></h2>
+										<h2><a href="blog${b.id}.html">${b.title }</a></h2>
 										<p></p>
 									</header>
 									<div class="info">
@@ -63,18 +63,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</s:iterator>
 							<!-- Pagination -->
 								<div class="pagination">
-									<s:if test="page.pageNo>1"><a href="blog/index.action?p=${page.prePage}" class="button previous">Previous Page</a></s:if>
+									<s:if test="page.pageNo>1"><a href="blogs${page.prePage}.html" class="button previous">Previous Page</a></s:if>
 									<div class="pages">
+									
+									<s:if test="page.start>2">
+										<a href="blogs.html">1</a>
+										<span>&hellip;</span>
+									</s:if>
 									<s:iterator value="page.range" var="p">
-										<a href="blog/index.action?p=${p}"<s:if test="#p==page.pageNo"> class="active"</s:if>>${p }</a>
+										<a href="blogs${p}.html"<s:if test="#p==page.pageNo"> class="active"</s:if>>${p }</a>
 									</s:iterator>
 									<s:if test="page.end<page.totalPage-1">
 										<span>&hellip;</span>
-										<a href="#">20</a>
+										<a href="blogs${page.totalPage}.html">${page.totalPage }</a>
 									</s:if>
 									</div>
 									<s:if test="page.pageNo<page.totalPage">
-									<a href="blog/index.action?p=${page.nextPage}" class="button next">Next Page</a>
+									<a href="blogs${page.nextPage}.html" class="button next">Next Page</a>
 									</s:if>
 								</div>
 

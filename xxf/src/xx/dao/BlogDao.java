@@ -16,6 +16,8 @@ import xx.model.Page;
 public class BlogDao extends BaseDao {
 
 	public Page list(Integer pageNo,Integer pageSize){
+		if(pageNo==null)pageNo=1;
+		if(pageSize==null)pageSize=10;
 		String hql="from Blog order by createTime desc";
 		return findPage(hql, "select count(*) "+hql, pageNo, pageSize);
 	}

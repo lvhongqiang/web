@@ -18,6 +18,16 @@
             <from>/artsc([0-9]+).html</from>
             <to>/articles.action?aid=$1&amp;source=1</to>
         </rule>
+        
+        
+		<rule>
+            <from>/blogs([0-9]*).html</from>
+            <to>/blog/index.action?p=$1</to>
+        </rule>
+		<rule>
+            <from>/blog([0-9]+).html</from>
+            <to>/blog/indexblog.action?id=$1</to>
+        </rule>
 <!-- 
 		<rule> 
 		    <name>Blocked Inline-Images</name> 
