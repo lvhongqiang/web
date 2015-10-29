@@ -30,12 +30,24 @@ baking.controller('Inventory', [ '$scope', '$http','$ionicPopup', function($scop
 			if(value.data.ok==true){
 				$ionicPopup.alert({
 					title: 'Congratulations！',
-				       template: 'Honey, you have just saved the change. (●\'◡\'●) '
+				    template: 'Honey, you have just saved the change. (●\'◡\'●) ',
+				    buttons:[
+			             {
+			            	 text:'OK!',
+			            	 type:'button-assertive'
+			             }
+				             ]
 				     });
 			}else{
 				$ionicPopup.alert({
 					title: 'OH！ NO！！',
-				       template: 'Honey I\'m so sorry, there is an error when saving. (●\'◡\'●) '
+				       template: 'Honey I\'m so sorry, there is an error when saving. (●\'◡\'●) ',
+					    buttons:[
+					             {
+					            	 text:'OK!',
+					            	 type:'button-assertive'
+					             }
+						             ]
 				     });
 			}
 		});

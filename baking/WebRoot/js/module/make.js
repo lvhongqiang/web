@@ -35,7 +35,13 @@ baking.controller('makeOrder', [ '$scope', '$http','$ionicPopup', function($scop
 		{
 			$ionicPopup.alert({
 				title: 'Wait~',
-			       template: 'Honey, you have not chosen anything. (●\'◡\'●) '
+			       template: 'Honey, you have not chosen anything. (●\'◡\'●) ',
+				    buttons:[
+				             {
+				            	 text:'OK!',
+				            	 type:'button-assertive'
+				             }
+					             ]
 			     });
 		}else{
 			$http.post("json_order_save.action",{orders : $scope.orders})
@@ -44,7 +50,13 @@ baking.controller('makeOrder', [ '$scope', '$http','$ionicPopup', function($scop
 				if($scope.order !=null){
 					$ionicPopup.alert({
 						title: 'Congratulations！',
-					       template: 'Honey, you have just saved one order. (●\'◡\'●) '
+					       template: 'Honey, you have just saved one order. (●\'◡\'●) ',
+						    buttons:[
+						             {
+						            	 text:'OK!',
+						            	 type:'button-assertive'
+						             }
+							             ]
 					     })
 					     .then(function(res) {
 					    	 window.location.href='order_detail.jsp?orderId='+$scope.order.id;
