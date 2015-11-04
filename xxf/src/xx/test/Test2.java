@@ -14,6 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.Header;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.cglib.transform.impl.AddDelegateTransformer;
@@ -45,12 +46,18 @@ public class Test2 {
 		
 		//登陆
 		HttpResponse response= client.execute(httpPost);
+		System.out.println(response);
 		
 		//添加文章
 		HttpPost addPost=add();
-		HttpResponse addresponse= client.execute(addPost);
 		
-		response.
+		for (Header header : addPost.getAllHeaders()) {
+			System.out.println(header);
+		}
+		HttpResponse addresponse= client.execute(addPost);
+		System.out.println(addresponse);
+		
+		
 		
 	}
 	
