@@ -55,6 +55,7 @@ public class Test2 {
 			System.out.println(header);
 		}
 		HttpResponse addresponse= client.execute(addPost);
+//		client.
 		System.out.println(addresponse);
 		
 		
@@ -69,10 +70,10 @@ public class Test2 {
 		List<NameValuePair>params=new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("Id", "0"));
 		params.add(new BasicNameValuePair("LanguageId", "2"));
-		params.add(new BasicNameValuePair("Title", "标题2_httpclient"));
+		params.add(new BasicNameValuePair("Title", "标题65444_httpclient"));
 		params.add(new BasicNameValuePair("Short", "简介"));
 		params.add(new BasicNameValuePair("Full", "内容"));
-		params.add(new BasicNameValuePair("CreatedOn", "2015-11-03+04:29:39"));
+		params.add(new BasicNameValuePair("CreatedOn", "2015-11-03 04:29:39"));
 		params.add(new BasicNameValuePair("selCategoryId", "27480"));
 		params.add(new BasicNameValuePair("StartDate", "2015-11-03"));
 		params.add(new BasicNameValuePair("MetaKeywords", ""));
@@ -92,6 +93,12 @@ public class Test2 {
 		UrlEncodedFormEntity entity=new UrlEncodedFormEntity(params, Consts.UTF_8);
 		HttpPost httpPost=new HttpPost("http://967453787.wezhan.cn/Admin/News/Create?categoryId=0");
 		httpPost.setEntity(entity);
+		httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0");
+//		httpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+//		httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
+//		httpPost.setHeader("Accept-Encoding", "gzip, deflate");
+//		httpPost.setHeader("Referer", "http://967453787.wezhan.cn/Admin/News/Create?categoryId=0");
+//		httpPost.setHeader("Origin", "http://967453787.wezhan.cn");
 		return httpPost;
 	}
 
