@@ -52,42 +52,36 @@ public class InventoryService extends BaseService {
 	}
 	
 	/**
-	 * 减少库存
+	 * 库存消耗
 	 * @return
 	 */
-	public Map<Integer, Integer> minus(Integer goodsId, Integer num, Boolean reduce){
+	public Map<Integer, Float> costs(Integer goodsId, Integer num){
 		String hql="from Recipe where goodsId=?";
 		List<Recipe>recipes=baseDao.find(hql, goodsId);
-		Map<Integer, Integer> map=new HashMap<Integer, Integer>();
+		Map<Integer, Float> map=new HashMap<Integer, Float>();
 		for (Recipe recipe : recipes) {
 			Integer inventory=recipe.getInventId();
 			if(map.containsKey(inventory)){
-				map.put(inventory, map.get(inventory)+recipe.getUsage().intValue()*num);
+				map.put(inventory, map.get(inventory)+recipe.getUsage()*num);
 			}else {
-				map.put(inventory, recipe.getUsage().intValue()*num);
-			}
-		}
-		if(reduce==true){//真减
-			for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-				baseDao.executeHql("update Inventory set num=num-? where id=?",new Object[]{entry.getValue(),entry.getKey()});
+				map.put(inventory, recipe.getUsage()*num);
 			}
 		}
 		return map;
 	}
 	/**
-	 * 库存消耗
+	 * 计算库存消耗
 	 * @param orderId
-	 * @param reduce 是否减库存，true:减库存
 	 * @return
 	 */
-	public Map<Integer, Integer> totalCosts(Integer orderId, Boolean reduce){
-		Map<Integer, Integer> costsMap= new HashMap<Integer, Integer>();
+	public Map<Integer, Integer> totalCosts(Integer orderId){
+		Map<Integer, Float> costsMap= new HashMap<Integer, Float>();
 		List<OrdersGoods>oglist=baseDao.find("from OrdersGoods where ordersId=?", orderId);
 		for(OrdersGoods og : oglist){
-			Map<Integer, Integer> map = minus(og.getGoodsId(), og.getNum(), reduce);
-			for (Map.Entry<Integer, Integer> cost : map.entrySet()) {
+			Map<Integer, Float> map = costs(og.getGoodsId(), og.getNum());
+			for (Map.Entry<Integer, Float> cost : map.entrySet()) {
 				Integer id=cost.getKey();
-				Integer id_num=cost.getValue();
+				Float id_num=cost.getValue();
 				if(costsMap.containsKey(id)){
 					costsMap.put(id, costsMap.get(id)+id_num);
 				}else {
@@ -95,8 +89,32 @@ public class InventoryService extends BaseService {
 				}
 			}
 		}
-		return costsMap;
+		Map<Integer, Integer>resultMap=new HashMap<Integer, Integer>();
+		for (Map.Entry<Integer, Float> entry : costsMap.entrySet()) {
+			resultMap.put(entry.getKey(), ((Double)Math.ceil(entry.getValue())).intValue());
+		}
+		return resultMap;
 	}
+	/**
+	 * 减去库存消耗
+	 * @param orderId
+	 * @return
+	 */
+	public Boolean reduceCosts(Integer orderId){
+		try{
+			Map<Integer, Integer>totalCosts=totalCosts(orderId);
+			for (Map.Entry<Integer, Integer> cost : totalCosts.entrySet()) {
+				Inventory inventory=inventoryDAO.findById(cost.getKey());
+				inventory.setNum(inventory.getNum()+cost.getValue());
+				inventoryDAO.update(inventory);
+			}
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * 取消库存消耗
 	 * @param orderId
@@ -104,7 +122,7 @@ public class InventoryService extends BaseService {
 	 */
 	public Boolean cancelCosts(Integer orderId){
 		try{
-			Map<Integer, Integer>totalCosts=totalCosts(orderId,false);
+			Map<Integer, Integer>totalCosts=totalCosts(orderId);
 			for (Map.Entry<Integer, Integer> cost : totalCosts.entrySet()) {
 				Inventory inventory=inventoryDAO.findById(cost.getKey());
 				inventory.setNum(inventory.getNum()+cost.getValue());

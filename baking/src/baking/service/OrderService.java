@@ -63,14 +63,14 @@ public class OrderService extends BaseService {
 					
 					OrdersGoods oGoods=new OrdersGoods(order.getId(), goodsId, num);//保存订单-商品关系
 					baseDao.save(oGoods);
-					
-					//减库存
-					inventoryService.minus(goodsId, num, true);
-					
 				}
 			}
 			order.setTitle(title.toString());
 			ordersDAO.update(order);
+			
+			//减库存
+			inventoryService.reduceCosts(order.getId());
+			
 			return order;
 		} catch (Exception e) {
 			log.error("保存订单出错", e);
@@ -86,7 +86,7 @@ public class OrderService extends BaseService {
 	 */
 	public List<Object[]>costDetial(Integer orderId){
 		List<Object[]>result=new ArrayList<Object[]>();
-		Map<Integer, Integer> map=inventoryService.totalCosts(orderId,false);
+		Map<Integer, Integer> map=inventoryService.totalCosts(orderId);
 		for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
 			Inventory inventory=inventoryDAO.findById(entry.getKey());
 			result.add(new Object[]{inventory,entry.getValue()});
