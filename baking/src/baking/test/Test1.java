@@ -1,7 +1,10 @@
-/**
- * 
- */
 package baking.test;
+
+
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * @author Lv
@@ -11,6 +14,12 @@ package baking.test;
 public class Test1 {
 
 	public static void main(String[] arrs ){
-		System.out.println(Math.ceil(3.5));
+		System.out.println(Calendar.getInstance(TimeZone.getTimeZone("Asia/Shanghai"), Locale.CHINA).getTime());
+
+		Calendar calendar=Calendar.getInstance();
+		System.out.println(calendar.getTimeInMillis());
+		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		System.out.println(calendar.getTimeInMillis());
+		System.out.println(new Timestamp(Calendar.getInstance().getTimeInMillis()+28800000));
 	}
 }

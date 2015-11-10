@@ -1,7 +1,10 @@
 package baking.model;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Orders entity. @author MyEclipse Persistence Tools
@@ -26,7 +29,7 @@ public class Orders implements java.io.Serializable {
 
 	/** default constructor */
 	public Orders() {
-		createTime=postTime=new Timestamp(new Date().getTime());
+		createTime=postTime=new Timestamp(Calendar.getInstance().getTimeInMillis()+28800000);
 		finished=0;
 		money=0l;
 		costs=0l;

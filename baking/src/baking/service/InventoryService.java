@@ -105,7 +105,7 @@ public class InventoryService extends BaseService {
 			Map<Integer, Integer>totalCosts=totalCosts(orderId);
 			for (Map.Entry<Integer, Integer> cost : totalCosts.entrySet()) {
 				Inventory inventory=inventoryDAO.findById(cost.getKey());
-				inventory.setNum(inventory.getNum()+cost.getValue());
+				inventory.setNum(inventory.getNum()-cost.getValue());
 				inventoryDAO.update(inventory);
 			}
 			return true;
