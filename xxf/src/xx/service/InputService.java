@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import xx.model.Article;
-import xx.util.SavefileUtil;
+import xx.util.FileUtil;
 
 @Service
 public class InputService extends BaseService {
@@ -41,7 +41,7 @@ public class InputService extends BaseService {
 			Element img=imgs.get(i);
 			String datasrc=img.attr("data-src");
 			String filePath="article/"+article.getId()+"/images/"+i+".jpg";
-			SavefileUtil.saveUrlImg(datasrc, SavefileUtil.realpath(filePath));
+			FileUtil.saveUrlImg(datasrc, FileUtil.realpath(filePath));
 			img.attr("data-src", filePath);
 		}
 		String content=contentElement.html();
@@ -69,7 +69,7 @@ public class InputService extends BaseService {
 			Element img=imgs.get(i);
 			String datasrc=img.attr("data-src");
 			String filePath="article/"+article.getId()+"/images/"+i+".jpg";
-			SavefileUtil.saveUrlImg(datasrc, SavefileUtil.realpath(filePath));
+			FileUtil.saveUrlImg(datasrc, FileUtil.realpath(filePath));
 			img.attr("data-src", filePath);
 		}
 		String content=doc.head().toString()+doc.body().toString();

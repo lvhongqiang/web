@@ -1,6 +1,7 @@
 package xx.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -11,7 +12,7 @@ import java.util.Calendar;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
-public class SavefileUtil {
+public class FileUtil {
 	
 
 	/**
@@ -81,5 +82,25 @@ public class SavefileUtil {
 	 */
 	public static String realpath(String path){
 		return ServletActionContext.getServletContext().getRealPath(path);
+	}
+	/**
+	 * 一次性读取文件为字符串
+	 * @param filepath
+	 * @return
+	 */
+	public static String readToString(String filepath){
+		File file=new File(filepath);
+		if(!file.exists()) return "文件不存在";
+		try {
+			Long length=file.length();
+			byte[] filecontent=new byte[length.intValue()];
+			FileInputStream in = new FileInputStream(file);
+			in.read(filecontent);
+			in.close();
+			return new String(filecontent);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 }

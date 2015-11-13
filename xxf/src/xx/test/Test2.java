@@ -22,6 +22,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import xx.util.FileUtil;
+
 /**
  * @author Lv
  * @date 2015年11月3日
@@ -97,14 +99,11 @@ public class Test2 {
 	 */
 	public static HttpPost update() {
 		List<NameValuePair>params=new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("Id", "277160652"));
+		params.add(new BasicNameValuePair("Id", "277151443"));
 		params.add(new BasicNameValuePair("LanguageId", "2"));
 		params.add(new BasicNameValuePair("Title", "标题bbbbba_httpclient"));
 		params.add(new BasicNameValuePair("Short", "简介"));
-		params.add(new BasicNameValuePair("Full", "<style>h1{font-size:20pt;}</style><script src=\"//code.jquery.com/jquery-2.1.4.min.js\"></script><script type=\"text/javascript\">"
-				+ "//$(\"html\").html($(\"#realhtml\").html());</script><div id=\"realhtml\" style='z-index=1000;background:white;position:fixed;top:0;left:0;height:100%;width:100%;'>"
-				+ "<link rel=\"stylesheet\" href=\"http://967453787.wezhan.cn/abc\" type=\"text/css\" />"
-				+ "<h1>    <a>hello</a> world23</h1></div>"));
+		params.add(new BasicNameValuePair("Full",FileUtil.readToString("WebRoot\\wenzhang.html")));
 		params.add(new BasicNameValuePair("CreatedOn", "2015-11-14 04:29:39"));
 		params.add(new BasicNameValuePair("selCategoryId", "27480"));
 		params.add(new BasicNameValuePair("StartDate", "2015-11-03"));
@@ -123,7 +122,7 @@ public class Test2 {
 		params.add(new BasicNameValuePair("editorValue", "内容"));
 		params.add(new BasicNameValuePair("editorValue", "简介"));
 		UrlEncodedFormEntity entity=new UrlEncodedFormEntity(params, Consts.UTF_8);
-		HttpPost httpPost=new HttpPost("http://967453787.wezhan.cn/Admin/News/Edit/277160652");
+		HttpPost httpPost=new HttpPost("http://967453787.wezhan.cn/Admin/News/Edit/277151443");
 		httpPost.setEntity(entity);
 		httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0");
 //		httpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
