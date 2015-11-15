@@ -127,6 +127,9 @@ public class Page implements Serializable {
 		}
 		else {
 			this.start = this.pageNo - 3;
+			if(this.start >getTotalPage()-6){
+				this.start=getTotalPage()-6;
+			}
 			if(this.start < 1){
 				this.start = 1;
 			}
@@ -137,6 +140,9 @@ public class Page implements Serializable {
 		}
 		else {
 			this.end = this.pageNo + 3;
+			if(this.end <7){
+				this.end=7;
+			}
 			if(this.end > getTotalPage()) {
 				this.end = getTotalPage();
 			}

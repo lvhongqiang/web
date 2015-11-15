@@ -27,10 +27,11 @@ public class Blog implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Blog(String title, String pic, String markdown, String html,
+	public Blog(String title, String pic, String brief,String markdown, String html,
 			Timestamp createTime, Integer menuId, Integer type) {
 		this.title = title;
 		this.pic = pic;
+		this.brief=brief;
 		this.markdown = markdown;
 		this.html = html;
 		this.createTime = createTime;

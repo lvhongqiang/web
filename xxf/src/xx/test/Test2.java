@@ -103,7 +103,7 @@ public class Test2 {
 		params.add(new BasicNameValuePair("LanguageId", "2"));
 		params.add(new BasicNameValuePair("Title", "标题bbbbba_httpclient"));
 		params.add(new BasicNameValuePair("Short", "简介"));
-		params.add(new BasicNameValuePair("Full",FileUtil.readToString("WebRoot\\wenzhang.html")));
+		params.add(new BasicNameValuePair("Full",FileUtil.readToString("WebRoot\\uploadhtml\\index.html")));
 		params.add(new BasicNameValuePair("CreatedOn", "2015-11-14 04:29:39"));
 		params.add(new BasicNameValuePair("selCategoryId", "27480"));
 		params.add(new BasicNameValuePair("StartDate", "2015-11-03"));

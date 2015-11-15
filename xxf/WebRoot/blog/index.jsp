@@ -8,10 +8,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 	<head>
     <base href="<%=basePath%>">
-		<title>Striped by HTML5 UP</title>
+		<title>哈喽吕小强-的技术博</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="description" content="web工程师的技术博客,java,web,网站,app,android,ios,博客,干货,网站开发,手机app" />
+		<meta name="keywords" content="java,web,网站,app,android,ios,博客,干货,网站开发,手机app" />
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/skel.min.js"></script>
@@ -49,13 +49,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<s:set value="TimeFormat(#b.createTime)" var="t"/>
 										<span class="date"><span class="month">${t.mon}<span>${t.th }</span></span> <span class="day">${t.day }</span><span class="year">, ${t.year }</span></span>
 									<!-- <ul class="stats">
-											<li><a href="#" class="icon fa-comment">16</a></li>
-											<li><a href="#" class="icon fa-heart">32</a></li>
-											<li><a href="#" class="icon fa-twitter">64</a></li>
-											<li><a href="#" class="icon fa-facebook">128</a></li>
+											<li><a href="" class="icon fa-comment">16</a></li>
+											<li><a href="" class="icon fa-heart">32</a></li>
+											<li><a href="" class="icon fa-twitter">64</a></li>
+											<li><a href="" class="icon fa-facebook">128</a></li>
 										</ul> -->	
 									</div>
-									<!-- <a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a> -->
+									<!-- <a href="" class="image featured"><img src="images/pic02.jpg" alt="" /></a> -->
 									<p>
 										${b.brief }
 									</p>
@@ -87,72 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 
 				<!-- Sidebar -->
-					<div id="sidebar">
-
-						<!-- Logo -->
-							<h1 id="logo"><a href="#">哈喽吕小强</a></h1>
-
-						<!-- Nav -->
-							<nav id="nav">
-								<ul>
-									<li class="current"><a href="#">Latest Post</a></li>
-									<li><a href="#">Archives</a></li>
-									<li><a href="#">About Me</a></li>
-									<li><a href="#">Contact Me</a></li>
-								</ul>
-							</nav>
-
-						<!-- Search -->
-							<section class="box search">
-								<form method="post" action="#">
-									<input type="text" class="text" name="search" placeholder="Search" />
-								</form>
-							</section>
-
-						<!-- Text -->
-							<section class="box text-style1">
-								<div class="inner">
-									<p>
-										<strong>Striped:</strong> A free and fully responsive HTML5 site
-										template designed by <a href="http://n33.co/">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a>
-									</p>
-								</div>
-							</section>
-
-						<!-- Recent Posts -->
-							<section class="box recent-posts">
-								<header>
-									<h2>Recent Posts</h2>
-								</header>
-								<ul>
-									<li><a href="#">Lorem ipsum dolor</a></li>
-									<li><a href="#">Feugiat nisl aliquam</a></li>
-									<li><a href="#">Sed dolore magna</a></li>
-									<li><a href="#">Malesuada commodo</a></li>
-									<li><a href="#">Ipsum metus nullam</a></li>
-								</ul>
-							</section>
-
-						<!-- Recent Comments -->
-							<section class="box recent-comments">
-								<header>
-									<h2>Recent Comments</h2>
-								</header>
-								<ul>
-									<li>case on <a href="#">Lorem ipsum dolor</a></li>
-									<li>molly on <a href="#">Sed dolore magna</a></li>
-									<li>case on <a href="#">Sed dolore magna</a></li>
-								</ul>
-							</section>
-
-						
-
-						<!-- Copyright -->
-							<ul id="copyright">
-								<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-
-					</div>
+					<%@include file="sidebar.jsp" %>
 
 			</div>
 

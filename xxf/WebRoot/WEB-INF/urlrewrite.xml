@@ -10,24 +10,42 @@
 -->
 <urlrewrite>
 
+		<!-- AngularJs -->
 		<rule>
-            <from>/art([0-9]+).html</from>
-            <to>/articles.action?aid=$1</to> 
+            <from>^/angularjs.html$</from>
+            <to>/blog/angularjs.jsp</to>
+        </rule>
+
+  		<!-- 博客 -->
+        <rule>
+            <from>^/$</from>
+            <to>/blog/index.action?p=1</to>
+        </rule>     
+        <rule>
+            <from>^/index.html$</from>
+            <to>/blog/index.action?p=1</to>
         </rule>
 		<rule>
-            <from>/artsc([0-9]+).html</from>
-            <to>/articles.action?aid=$1&amp;source=1</to>
-        </rule>
-        
-        
-		<rule>
-            <from>/blogs([0-9]*).html</from>
+            <from>^/blogs([0-9]*).html$</from>
             <to>/blog/index.action?p=$1</to>
         </rule>
 		<rule>
-            <from>/blog([0-9]+).html</from>
+            <from>^/blog([0-9]+).html$</from>
             <to>/blog/indexblog.action?id=$1</to>
         </rule>
+        
+       
+       
+       <!-- 微信 -->
+		<rule>
+            <from>^/art([0-9]+).html$</from>
+            <to>/articles.action?aid=$1</to> 
+        </rule>
+		<rule>
+            <from>^/artsc([0-9]+).html$</from>
+            <to>/articles.action?aid=$1&amp;source=1</to>
+        </rule> 
+        
 <!-- 
 		<rule> 
 		    <name>Blocked Inline-Images</name> 

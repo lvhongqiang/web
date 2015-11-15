@@ -1,0 +1,191 @@
+<script>$("html").html($("#realhtml").html());</script>
+<div id="realhtml" style='z-index=1000;background:white;position:fixed;top:0;left:0;height:100%;width:100%;'>
+<html class="global desktop wide"><head><meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1"><style type="text/css">html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}body{-webkit-text-size-adjust:none}</style><style type="text/css">*,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}</style><meta name="viewport" content="initial-scale=1">
+
+		<title>Striped by HTML5 UP</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="http://www.sklmccs.ia.ac.cn/xx/css/ie/html5shiv.js"></script><![endif]-->
+		
+			<link rel="stylesheet" href="http://www.sklmccs.ia.ac.cn/xx/css/style.css" />
+			<link rel="stylesheet" href="http://www.sklmccs.ia.ac.cn/xx/css/style-desktop.css" />
+			<link rel="stylesheet" href="http://www.sklmccs.ia.ac.cn/xx/css/style-wide.css" />
+		
+		<!--[if lte IE 8]><link rel="stylesheet" href="http://www.sklmccs.ia.ac.cn/xx/css/ie/v8.css" /><![endif]-->
+		<link rel="stylesheet" href="http://www.sklmccs.ia.ac.cn/xx/css/blog.css" />
+	</head>
+	<!--
+		Note: Set the body element's class to "left-sidebar" to position the sidebar on the left.
+		Set it to "right-sidebar" to, you guessed it, position it on the right.
+	-->
+	<body class="left-sidebar">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Content -->
+					<div id="content">
+						<div class="inner">
+							<!-- Post -->
+								<article class="box post post-excerpt">
+									<header>
+										<h2><a href="#">有关网页渲染，每个前端开发者都该知道的那点事</a></h2>
+										<p></p>
+									</header>
+									<div class="info">
+										
+										<span class="date"><span class="month">May<span></span></span> <span class="day">12</span><span class="year">, 115</span></span>
+									 <ul class="stats">
+											<li><a href="#" class="icon fa-comment">16</a></li>
+											<li><a href="#" class="icon fa-heart">32</a></li>
+											<li><a href="#" class="icon fa-twitter">64</a></li>
+											<li><a href="#" class="icon fa-facebook">128</a></li>
+										</ul>
+									</div>
+									<!-- <a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a> -->
+									<p>
+										<p>网页渲染必须在很早的阶段进行，可以早到页面布局刚刚定型。因为样式和脚本都会对网页渲染产生关键性的影响。所以专业开发者必须了解一些技巧，从而避免在实践的过程中遇到性能问题。</p><p>这篇文章不会研究浏览器内部的详细机制，而是提出一些通用的规则。毕竟，不同浏览器引擎的工作机制各不相同，这无疑会让开发者对浏览器特性的研究变得更加复杂。</p><h2>浏览器是如何完成网页渲染？</h2><p>首先，我们回顾一下网页渲染时，浏览器的动作：</p><ol class=" list-paddingleft-2"><li><p><span style="background-color: initial;">根据来自服务器端的HTML代码形成文档对象模型（DOM）。</span></p></li><li><p><span style="background-color: initial;">加载并解析样式，形成CSS对象模型。</span></p></li><li><p><span style="background-color: initial;">在
+文档对象模型和CSS对象模型之上，创建一棵由一组待生成渲染的对象组成的渲染树（在Webkit中这些对象被称为渲染器或渲染对象，而在Gecko中称
+之为“frame”。）渲染树反映了文档对象模型的结构，但是不包含诸如&lt;head&gt;标签或含有`display:none`属性的不可见元
+素。在渲染树中，每一段文本字符串都表现为独立的渲染器。每一个渲染对象都包含与之对应的DOM对象，或者文本块，还加上计算过的样式。换言之，渲染树是
+一个文档对象模型的直观展示。</span></p></li><li><p><span style="background-color: initial;">对渲染树上的每个元素，计算它的坐标，称之为布局。浏览器采用一种流方法，布局一个元素只需通过一次，但是表格元素需要通过多次。</span></p></li><li><p><span style="background-color: initial;">最后，渲染树上的元素最终展示在浏览器里，这一过程称为“painting”。</span></p></li></ol><p>当用户与网页交互，或者脚本程序改动修改网页时，前文提到的一些操作将会重复执行，因为网页的内在结构已经发生了改变。</p><h2>Repaint</h2><p>当改变那些不会影响元素在网页中的位置的元素样式时，譬如background-color(背景色)，
+border-color(边框色)， visibility(可见性)，浏览器只会用新的样式将元素重绘一次(这就是重绘，或者说重新构造样式)。</p><h2>Reflow</h2><p>当改变影响到文本内容或结构，或者元素位置时，重排或者说重新布局就会发生。这些改变通常由以下事件触发：</p><ul class=" list-paddingleft-2"><li><p><span style="background-color: initial;">DOM操作（元素添加、删除、修改或者元素顺序的改变）；</span></p></li><li><p><span style="background-color: initial;">内容变化，包括表单域内的文本改变；</span></p></li><li><p><span style="background-color: initial;">CSS属性的计算或改变；</span></p></li><li><p><span style="background-color: initial;">添加或删除样式表；</span></p></li><li><p><span style="background-color: initial;">更改“类”的属性；</span></p></li><li><p><span style="background-color: initial;">浏览器窗口的操作（缩放，滚动）；</span></p></li><li><p><span style="background-color: initial;">伪类激活（悬停）。</span></p></li></ul><h2>浏览器如何优化渲染？</h2><p>浏览器尽可能将
+repaint/reflow 限制在被改变元素的区域内。比如，对于位置固定或绝对的元素，其大小改变只影响元素本身及其子元素，然而，静态定位元素的大小改变会触发后续所有元素的重流。</p><p>另一种优化技巧是，在运行几段JavaScript代码时，浏览器会缓存这些改变，在代码运行完毕后再将这些改变经一次通过加以应用。举个例子，下面这段代码只会触发一个reflow和repaint：</p><pre name="code" class="">var&nbsp;$body&nbsp;=&nbsp;$(&#39;body&#39;);
+$body.css(&#39;padding&#39;,&nbsp;&#39;1px&#39;);&nbsp;//&nbsp;reflow,&nbsp;repaint
+$body.css(&#39;color&#39;,&nbsp;&#39;red&#39;);&nbsp;//&nbsp;repaint
+$body.css(&#39;margin&#39;,&nbsp;&#39;2px&#39;);&nbsp;//&nbsp;reflow,&nbsp;repaint
+//&nbsp;only&nbsp;1&nbsp;reflow&nbsp;and&nbsp;repaint&nbsp;will&nbsp;actually&nbsp;happen</pre><p>然而，如前所述，改变元素的属性会触发强制性的重排。如果我们在上面的代码块中加入一行代码，用来访问元素的属性，就会发生这种现象。</p><pre name="code" class="">var&nbsp;$body&nbsp;=&nbsp;$(&#39;body&#39;);
+$body.css(&#39;padding&#39;,&nbsp;&#39;1px&#39;);
+$body.css(&#39;padding&#39;);&nbsp;//&nbsp;reading&nbsp;a&nbsp;property,&nbsp;a&nbsp;forced&nbsp;reflow
+$body.css(&#39;color&#39;,&nbsp;&#39;red&#39;);
+$body.css(&#39;margin&#39;,&nbsp;&#39;2px&#39;);</pre><p>其结果就是，重排发生了两次。因此，你应该把访问元素属性的操作都组织在一起，从而优化网页性能。（[你可以在JSBin查到更为详细的例子](http://jsbin.com/duhah/2/edit?html,css,js,output)）</p><p>有
+时，你必须触发一个强制性重排。比如，我们必须将同样的属性(比如左边距)两次赋值给同一个元素。起初，它应该设置为100px，且不带动效。接着，它必
+须通过过渡(transition)动效改变为50px。你现在可以在[JSbin](http://jsbin.com/duhah/2
+/edit?html,css,js,output)上学习这个例子，不过我会在这儿更详细地介绍它。</p><p>首先，我们创建一个带过渡效果的CSS类：</p><pre name="code" class="">.has-transition&nbsp;{
+&nbsp;&nbsp;&nbsp;-webkit-transition:&nbsp;margin-left&nbsp;1s&nbsp;ease-out;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-moz-transition:&nbsp;margin-left&nbsp;1s&nbsp;ease-out;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-o-transition:&nbsp;margin-left&nbsp;1s&nbsp;ease-out;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transition:&nbsp;margin-left&nbsp;1s&nbsp;ease-out;
+}</pre><p>然后继续执行：</p><pre name="code" class="">//&nbsp;our&nbsp;element&nbsp;that&nbsp;has&nbsp;a&nbsp;&quot;has-transition&quot;&nbsp;class&nbsp;by&nbsp;default
+var&nbsp;$targetElem&nbsp;=&nbsp;$(&#39;#targetElemId&#39;);
+
+//&nbsp;remove&nbsp;the&nbsp;transition&nbsp;class
+$targetElem.removeClass(&#39;has-transition&#39;);
+
+//&nbsp;change&nbsp;the&nbsp;property&nbsp;expecting&nbsp;the&nbsp;transition&nbsp;to&nbsp;be&nbsp;off,&nbsp;as&nbsp;the&nbsp;class&nbsp;is&nbsp;not&nbsp;there
+//&nbsp;anymore
+$targetElem.css(&#39;margin-left&#39;,&nbsp;100);
+
+//&nbsp;put&nbsp;the&nbsp;transition&nbsp;class&nbsp;back
+$targetElem.addClass(&#39;has-transition&#39;);
+
+//&nbsp;change&nbsp;the&nbsp;property
+$targetElem.css(&#39;margin-left&#39;,&nbsp;50);</pre><p>然而，这个执行无法奏效。所有改变都被缓存，只在代码块末尾加以执行。我们需要的是强制性的重排，我们可以通过以下更改加以实现：</p><pre name="code" class="">//&nbsp;remove&nbsp;the&nbsp;transition&nbsp;class
+$(this).removeClass(&#39;has-transition&#39;);
+
+//&nbsp;change&nbsp;the&nbsp;property
+$(this).css(&#39;margin-left&#39;,&nbsp;100);
+
+//&nbsp;trigger&nbsp;a&nbsp;forced&nbsp;reflow,&nbsp;so&nbsp;that&nbsp;changes&nbsp;in&nbsp;a&nbsp;class/property&nbsp;get&nbsp;applied&nbsp;immediately
+$(this)[0].offsetHeight;&nbsp;//&nbsp;an&nbsp;example,&nbsp;other&nbsp;properties&nbsp;would&nbsp;work,&nbsp;too
+
+//&nbsp;put&nbsp;the&nbsp;transition&nbsp;class&nbsp;back
+$(this).addClass(&#39;has-transition&#39;);
+
+//&nbsp;change&nbsp;the&nbsp;property
+$(this).css(&#39;margin-left&#39;,&nbsp;50);</pre><p>现在代码如预期那样执行了。</p><h2>有关性能优化的实际建议</h2><p>总结现有的资料，我提出以下建议：</p><ul class=" list-paddingleft-2"><li><p><span style="background-color: initial;">创建有效的HTML和CSS文件，不要忘记指明文档的编码方式。样式应该包含在&lt;head&gt;标签内，脚本代码则应该加在&lt;body&gt;标签末端。</span></p></li><li><p><span style="background-color: initial;">尽量简化和优化CSS选择器（这种优化方式几乎被使用CSS预处理器的开发者统一忽视了）将嵌套程度保持在最低水平。以下是CSS选择器的性能排名（从最快者开始）：</span></p></li></ul><ol class=" list-paddingleft-2" style="margin-left: 2em !important;"><li><p><span style="background-color: initial;">识别器:#id</span></p></li><li><p><span style="background-color: initial;">类:.class</span></p></li><li><p><span style="background-color: initial;">标签：div</span></p></li><li><p><span style="background-color: initial;">相邻兄弟选择器：a + i</span></p></li><li><p><span style="background-color: initial;">父类选择器：ul&gt; li</span></p></li><li><p><span style="background-color: initial;">通用选择器：*</span></p></li><li><p><span style="background-color: initial;">属性选择：input[type=&quot;text&quot;]</span></p></li><li><p><span style="background-color: initial;">伪类和伪元素：a:hover</span></p></li></ol><p>你应该记住，浏览器在处理选择器时依照从右到左的原则，因此最右端的选择器应该是最快的：#id或则.class：</p><pre name="code" class="">div&nbsp;*&nbsp;{...}&nbsp;//&nbsp;bad
+.list&nbsp;li&nbsp;{...}&nbsp;//&nbsp;bad
+.list-item&nbsp;{...}&nbsp;//&nbsp;good
+#list&nbsp;.list-item&nbsp;{...}&nbsp;//&nbsp;good</pre><ul class=" list-paddingleft-2"><li><p><span style="background-color: initial;">在你的脚本代码中，尽可能减少DOM操作。缓存所有东西，包括元素属性以及对象（如果它们被重用的话）。当进行复杂的操作时，使用“孤立”元素会更好，之后可以将其加到DOM中（所谓“孤立”元素是与DOM脱离，仅保存在内存中的元素）。</span></p></li><li><p><span style="background-color: initial;">如果你使用jQuery来选择元素，请遵从jQuery选择器最佳实践方案。</span></p></li><li><p><span style="background-color: initial;">为了改变元素的样式，修改“类”的属性是奏效的方法之一。执行这一改变时，处在DOM渲染树的位置越深越好（这还有助于将逻辑与表象脱离）。</span></p></li><li><p><span style="background-color: initial;">尽量只给位置绝对或者固定的元素添加动画效果。</span></p></li><li><p><span style="background-color: initial;">在使用滚动时禁用复杂的悬停动效（比如，在&lt;body&gt;中添加一个额外的不悬停类）。读者可以阅读关于这个问题的[一篇文章](http://habrahabr.ru/post/204238/)。</span></p></li></ul><p>想了解更多的细节问题，大家也可以看看这两篇文章：</p><p>1. <a href="http://taligarsiel.com/Projects/howbrowserswork1.htm" target="_blank">How browsers work？</a></p><p>2.&nbsp;<a href="http://www.phpied.com/rendering-repaint-reflowrelayout-restyle/" target="_blank">Rendering: repaint, reflow/relayout, restyle</a></p><p><br/></p>
+									</p>
+								</article>
+							<!-- Pagination
+								<div class="pagination">
+									<!--<a href="#" class="button previous">Previous Page</a>
+									<div class="pages">
+										<a href="#" class="active">1</a>
+										<a href="#">2</a>
+										<a href="#">3</a>
+										<a href="#">4</a>
+										<span>&hellip;</span>
+										<a href="#">20</a>
+									</div>
+									<a href="#" class="button next">Next Page</a>
+								</div>-->
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+
+						<!-- Logo -->
+							<h1 id="logo"><a href="#">哈喽吕小强</a></h1>
+
+						<!-- Nav -->
+							<nav id="nav">
+								<ul>
+									<li class="current"><a href="#">Latest Post</a></li>
+									<li><a href="#">Archives</a></li>
+									<li><a href="#">About Me</a></li>
+									<li><a href="#">Contact Me</a></li>
+								</ul>
+							</nav>
+
+						<!-- Search -->
+							<section class="box search">
+								<form method="post" action="#">
+									<input type="text" class="text" name="search" placeholder="Search" />
+								</form>
+							</section>
+
+						<!-- Text -->
+							<section class="box text-style1">
+								<div class="inner">
+									<p>
+										<strong>Striped:</strong> A free and fully responsive HTML5 site
+										template designed by <a href="http://n33.co/">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a>
+									</p>
+								</div>
+							</section>
+
+						<!-- Recent Posts -->
+							<section class="box recent-posts">
+								<header>
+									<h2>Recent Posts</h2>
+								</header>
+								<ul>
+									<li><a href="#">Lorem ipsum dolor</a></li>
+									<li><a href="#">Feugiat nisl aliquam</a></li>
+									<li><a href="#">Sed dolore magna</a></li>
+									<li><a href="#">Malesuada commodo</a></li>
+									<li><a href="#">Ipsum metus nullam</a></li>
+								</ul>
+							</section>
+
+						<!-- Recent Comments -->
+							<section class="box recent-comments">
+								<header>
+									<h2>Recent Comments</h2>
+								</header>
+								<ul>
+									<li>case on <a href="#">Lorem ipsum dolor</a></li>
+									<li>molly on <a href="#">Sed dolore magna</a></li>
+									<li>case on <a href="#">Sed dolore magna</a></li>
+								</ul>
+							</section>
+
+						
+
+						<!-- Copyright -->
+							<ul id="copyright">
+								<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+
+					</div>
+
+			</div>
+
+	</body>
+</div>
