@@ -18,7 +18,7 @@ public class BlogService extends BaseService {
 	@Autowired BlogDao blogDao;
 	
 	public Page list(Integer pageNo,Integer pageSize){
-		return blogDao.list(pageNo, pageSize);
+		return blogDao.listWithoutContent(pageNo, pageSize);
 	}
 
 }

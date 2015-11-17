@@ -56,9 +56,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</ul>
 									</div>
 									<!-- <a href="" class="image featured"><img src="images/pic02.jpg" alt="" /></a> -->
-									<p>
-										${blog.html }
-									</p>
+									
+									<div id="test-editormd-view">
+						                <textarea id="append-test" style="display:none;">${blog.markdown }</textarea>          
+						            </div>
+									
 								</article>
 							<!-- Pagination
 								<div class="pagination">
@@ -80,6 +82,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- Sidebar -->
 					<%@include file="sidebar.jsp" %>
 			</div>
+ <script src="editor.md/js/jquery.min.js"></script>       
+        <script src="editor.md/lib/marked.min.js"></script>
+        <script src="editor.md/lib/prettify.min.js"></script>
+        
+        <script src="editor.md/lib/raphael.min.js"></script>
+        <script src="editor.md/lib/underscore.min.js"></script>
+        <script src="editor.md/lib/sequence-diagram.min.js"></script>
+        <script src="editor.md/lib/flowchart.min.js"></script>
+        <script src="editor.md/lib/jquery.flowchart.min.js"></script>
 
+       
+ <script src="editor.md/editormd.min.js"></script>
+<script>
+$(function() {
+                var testEditormdView;
+                
+                testEditormdView = editormd.markdownToHTML("test-editormd-view", {
+                    htmlDecode      : true,  // "style,script,iframe",  //you can filter tags decode
+                    emoji           : true,
+                    taskList        : true,
+                    tex             : true,  // 默认不解析
+                    flowChart       : true,  // 默认不解析
+                    sequenceDiagram : true,  // 默认不解析
+                });
+            });
+</script>
+
+
+<div style="display:none;">
+	${blog.html }
+</div>
 	</body>
 </html>

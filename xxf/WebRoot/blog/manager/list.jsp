@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<s:if test="#b.type==1">Markdown</s:if><s:else>Html</s:else></span>
 					<span><s:date name="#b.createTime" format="yyyy-MM-dd HH:mm:ss"/></span>
 					<span class="control"><a href="blog/managerupdate.action?id=${b.id }">修改</a> | <a href="blog/managerdel.action?id=${b.id }">删除</a></span></div>
-				<div>${b.brief }</div>
+				
 			</li>
 		</s:iterator>
 		</ol>
@@ -51,12 +51,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="pagination">
 							<s:if test="page.pageNo>1"><a href="blog/managerlist.action?p=${page.prePage}" class="button previous">Previous Page</a></s:if>
 							<div class="pages">
+							
+							<s:if test="page.start>2">
+								<a href="blog/managerlist.action?p=1">1</a>
+								<span>&hellip;</span>
+							</s:if>
 							<s:iterator value="page.range" var="p">
 								<a href="blog/managerlist.action?p=${p}"<s:if test="#p==page.pageNo"> class="active"</s:if>>${p }</a>
 							</s:iterator>
 							<s:if test="page.end<page.totalPage-1">
 								<span>&hellip;</span>
-								<a href="#">20</a>
+								<a href="blog/managerlist.action?p=${page.totalPage}">${page.totalPage}</a>
 							</s:if>
 							</div>
 							<s:if test="page.pageNo<page.totalPage">

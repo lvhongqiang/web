@@ -10,16 +10,6 @@
 -->
 <urlrewrite>
 
-		<!-- AngularJs -->
-		<rule>
-            <from>^/angularjs.html$</from>
-            <to>/blog/angularjs.jsp</to>
-        </rule>
-        <rule>
-        	<from>^/angularjs/(.*\.(css|jpg|png|gif|bmp))$</from>
-        	<to>/angularjs/aa$1</to>
-        </rule>
-
   		<!-- 博客 -->
         <rule>
             <from>^/$</from>

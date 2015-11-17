@@ -1,6 +1,7 @@
 package xx.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Blog entity. @author MyEclipse Persistence Tools
@@ -25,7 +26,17 @@ public class Blog implements java.io.Serializable {
 	/** default constructor */
 	public Blog() {
 	}
-
+	public Blog(Integer id, String title, String pic, String brief,
+			Date createTime, Integer menuId, Integer type) {
+		this.id=id;
+		this.title = title;
+		this.pic = pic;
+		this.brief=brief;
+		this.createTime = new Timestamp(createTime.getTime());
+		this.menuId = menuId;
+		this.type = type;
+	}
+	
 	/** full constructor */
 	public Blog(String title, String pic, String brief,String markdown, String html,
 			Timestamp createTime, Integer menuId, Integer type) {
