@@ -4,6 +4,8 @@
 package xx.util;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,10 +52,12 @@ public class TimeFormat {
 	 * @param year
 	 */
 	public TimeFormat(Timestamp time) {
-		this.year=time.getYear();
-		this.mon=monMap.get(time.getMonth());
-		this.th=thMap.get(time.getMonth());
-		this.day=time.getDate();
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(time);
+		this.year=calendar.get(Calendar.YEAR);
+		this.mon=monMap.get(calendar.get(Calendar.MONTH)+1);
+		this.th=thMap.get(calendar.get(Calendar.MONTH)+1);
+		this.day=calendar.get(Calendar.DAY_OF_MONTH);
 	}
 	public Integer getYear() {
 		return year;

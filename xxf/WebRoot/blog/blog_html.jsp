@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+﻿<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
 <%
 String path = request.getContextPath();
@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 	<head>
     <base href="<%=basePath%>">
-		<title>哈喽吕小强-的技术博-${blog.title }</title>
+		<title>${blog.title }-哈喽吕小强-的技术博</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="${blog.title },web工程师的技术博客,java,web,网站,app,android,ios,博客,干货,网站开发,手机app" />
 		<meta name="keywords" content="${blog.title },java,web,网站,app,android,ios,博客,干货,网站开发,手机app" />
@@ -74,6 +74,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>-->
 
 						</div>
+
+<script type="text/javascript">var jd_union_pid="364456298";var jd_union_euid="";</script><script type="text/javascript" src="http://ads.union.jd.com/static/js/union.js"></script>
 					</div>
 
 				<!-- Sidebar -->
@@ -81,5 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			</div>
 
+
+					<%@include file="inc/footer.jsp" %>
 	</body>
 </html>
